@@ -15,7 +15,7 @@ class Input
     public:
         Input()
         {
-            ifstream inputFile("bd-dec22-births-deaths-by-region.txt");
+            ifstream inputFile("Input/bd-dec22-births-deaths-by-region.txt");
 
             if (inputFile.is_open())
             {
@@ -40,7 +40,10 @@ class Input
                     cout << input.alive << " ";
 
                     getline(ss,buffer, ',');
-                    input.region = buffer;
+                    if (buffer == "\"Region not stated or area outside region\"")
+                        input.region = "0";
+                    else
+                        input.region = buffer;
                     cout << input.region<< " ";
 
                     getline(ss,buffer, ',');
