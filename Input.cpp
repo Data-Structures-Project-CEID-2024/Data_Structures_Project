@@ -1,7 +1,9 @@
 #include<iostream>
 #include<fstream>
 #include<sstream> 
-
+#include <algorithm> // Required for std::remove_if
+#include <cctype> 
+#include<vector>
 #include "Struct.h"
 
 using namespace std;
@@ -13,28 +15,28 @@ class Input
     public:
         Input()
         {
-            ifstream inputFile("bd-dec22-births-deaths-by-region.csv");
+            ifstream inputFile("bd-dec22-births-deaths-by-region.txt");
 
             if (inputFile.is_open())
             {
                 string buffer;
-                inputFile >> buffer ; 
                 string line;
-                
-                while(inputFile >> line)
+                getline(inputFile,line);
+
+                vector<population> Input;
+                while(getline(inputFile,line))
                 {
                     population input;
                     istringstream ss(line);
+                    
 
                     getline(ss,buffer, ',');
+
                     input.period = stoi(buffer);
                     cout << input.period << " ";
 
                     getline(ss,buffer, ',');
-                    if(buffer == "Births")
-                        input.alive = true;
-                    else
-                        input.alive = false;
+                    input.alive = (buffer == "Births");
                     cout << input.alive << " ";
 
                     getline(ss,buffer, ',');
@@ -46,10 +48,9 @@ class Input
                     cout << input.count << " ";
 
                     cout << "\n";
-                    
+                    Input.push_back(input);
                 }
 
-                cout<< buffer;
                 
             } 
             
