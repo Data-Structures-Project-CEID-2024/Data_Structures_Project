@@ -92,6 +92,7 @@ class Input
                 byRegion_deaths.alive = false;
                 byRegion_deaths.region = input[region_id].region;
                 byRegion_deaths.count = count_deaths;
+                deathsNbirthsbyRegion.push_back(byRegion_deaths);
                 
                 cout << "\n";
             }
