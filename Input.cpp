@@ -64,14 +64,14 @@ class Input
         // It gets the initial Input and
         // adds up all the deaths and births
         // by region
-        vector<population> deathsNbirthsbyRegion()
+        vector<population> deathsNbirthsbyRegion(bool birth_death)
         {
-            vector<population> deathsNbirthsbyRegion;
-
+            vector<population> deathssbyRegion;
+            vector<population> birthsbyRegion;
             int count_births = 0;
             for (int region_id = 0; region_id < 17; region_id++)
             {
-                for (int i = region_id; i < input.size();  i+= 36)
+                for (int i = region_id; i < (int)input.size();  i+= 36)
                 {
                     count_births += input[i].count;
                     // cout << input[i].count << "\t";
@@ -81,10 +81,10 @@ class Input
                 byRegion_births.region = input[region_id].region;
                 byRegion_births.count = count_births;
 
-                deathsNbirthsbyRegion.push_back(byRegion_births);
+                birthsbyRegion.push_back(byRegion_births);
 
                 int count_deaths = 0;           
-                for (int i = region_id + 18; i < input.size();  i+= 36)
+                for (int i = region_id + 18; i < (int)input.size();  i+= 36)
                 {
                     count_deaths += input[i].count;
                 }
@@ -92,17 +92,20 @@ class Input
                 byRegion_deaths.alive = false;
                 byRegion_deaths.region = input[region_id].region;
                 byRegion_deaths.count = count_deaths;
-                deathsNbirthsbyRegion.push_back(byRegion_deaths);
+                deathssbyRegion.push_back(byRegion_deaths);
                 
-                cout << "\n";
+                // cout << "\n";
             }
-
-            return (deathsNbirthsbyRegion);
+            if (birth_death == true)
+                return (birthsbyRegion);
+            
+            return (deathssbyRegion);
         }
 };
 
 int main()
 {
     Input input = Input();
-    input.deathsNbirthsbyRegion();
+    vector<population> birth  = input.deathsNbirthsbyRegion(true);
+    vector<population> death = input.deathsNbirthsbyRegion(false);
 }
