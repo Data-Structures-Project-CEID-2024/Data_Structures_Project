@@ -53,43 +53,39 @@ Input::Input()
     // It gets the initial Input and
     // adds up all the deaths and births
     // by region
-vector<population> Input::deathsNbirthsbyRegion(bool birth_death)
+void Input::deathsNbirthsbyRegion()
+{
+    
+    int count_births = 0;
+    for (int region_id = 0; region_id < 17; region_id++)
     {
-        
-        int count_births = 0;
-        for (int region_id = 0; region_id < 17; region_id++)
+        for (int i = region_id; i < (int)input.size();  i+= 36)
         {
-            for (int i = region_id; i < (int)Input::input.size();  i+= 36)
-            {
-                count_births += input[i].count;
-                // cout << input[i].count << "\t";
-            }    
-            population byRegion_births;
-            byRegion_births.alive = true;
-            byRegion_births.region = input[region_id].region;
-            byRegion_births.count = count_births;
+            count_births += input[i].count;
+            // cout << input[i].count << "\t";
+        }    
+        population byRegion_births;
+        byRegion_births.alive = true;
+        byRegion_births.region = input[region_id].region;
+        byRegion_births.count = count_births;
 
-            birthsbyRegion.push_back(byRegion_births);
+        birthsbyRegion.push_back(byRegion_births);
 
-            int count_deaths = 0;           
-            for (int i = region_id + 18; i < (int)input.size();  i+= 36)
-            {
-                count_deaths += input[i].count;
-            }
-            population byRegion_deaths;
-            byRegion_deaths.alive = false;
-            byRegion_deaths.region = input[region_id].region;
-            byRegion_deaths.count = count_deaths;
-
-            deathssbyRegion.push_back(byRegion_deaths);
-            
-            // cout << "\n";
+        int count_deaths = 0;           
+        for (int i = region_id + 18; i < (int)input.size();  i+= 36)
+        {
+            count_deaths += input[i].count;
         }
-        if (birth_death == true)
-            return (birthsbyRegion);
+        population byRegion_deaths;
+        byRegion_deaths.alive = false;
+        byRegion_deaths.region = input[region_id].region;
+        byRegion_deaths.count = count_deaths;
+
+        deathsbyRegion.push_back(byRegion_deaths);
         
-        return (deathssbyRegion);
+        // cout << "\n";
     }
+}
 
 void Input::printArray(vector<population> Array)
 {
