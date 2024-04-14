@@ -3,7 +3,7 @@
 ## Christos Galanis
 ### HeapSort Algorithm: https://fullyunderstood.com/pseudocodes/heap-sort/
 
-##             Result
+## Sorting Results
 ### ---- Heap Sort:Deaths ----
 #### 939             "Region not stated orarea outside region"
 #### 5070            West Coast region
