@@ -1,15 +1,20 @@
 #include "Input.h"
 #include "Struct.h"
-
+#include "Sort.h"
 
 using namespace std;
 
 int main()
 {
     Input input = Input();
-    vector<population> birth  = input.deathsNbirthsbyRegion(true);
-    vector<population> death = input.deathsNbirthsbyRegion(false);
+    input.deathsNbirthsbyRegion();
+    input.printArray(input.deathsbyRegion);
+    // input.printArray(input.birthsbyRegion);
 
-    input.printArray(input.deathssbyRegion);
-    input.printArray(input.birthsbyRegion);
+
+    cout << "---- Heap Sort:Deaths ----\n";
+    Sort sort =  Sort(input.deathsbyRegion);
+    sort.Heapsort();
+    input.printArray(sort.array);
+
 }

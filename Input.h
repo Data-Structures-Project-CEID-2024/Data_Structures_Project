@@ -12,14 +12,13 @@
 class Input{
     public:
         std::vector<population> input;
-        std::vector<population> deathssbyRegion;
+        std::vector<population> deathsbyRegion;
         std::vector<population> birthsbyRegion;
 
         Input();
-        std::vector<population> deathsNbirthsbyRegion(bool birth_death);
+        void deathsNbirthsbyRegion();
 
         void printArray(std::vector<population> Array);
-  
 };
 
 #endif

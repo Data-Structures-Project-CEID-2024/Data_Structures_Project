@@ -1,6 +1,7 @@
 #ifndef STRUCT_H
 #define STRUCT_H
 
+#include<string>
 typedef struct population
 {
     int period;
