@@ -11,7 +11,6 @@ Input::Input()
 
     if (inputFile.is_open())
     {
-        cout<<"ok nice";
         string buffer;
         string line;
         getline(inputFile,line);
@@ -48,7 +47,7 @@ Input::Input()
         }
 
 
-    }else{cout<<"nahh";}
+    }else{cout<<"Couldn't open file.";}
 
 }
 
@@ -64,7 +63,6 @@ vector<population> Input::deathsNbirthsbyRegion(bool birth_death)
         for (int i = region_id; i < (int)Input::input.size();  i+= 36)
         {
             count_births += input[i].count;
-            // cout << input[i].count << "\t";
         }
         population byRegion_births;
         byRegion_births.alive = true;
@@ -85,7 +83,6 @@ vector<population> Input::deathsNbirthsbyRegion(bool birth_death)
 
         deathssbyRegion.push_back(byRegion_deaths);
 
-        // cout << "\n";
     }
     if (birth_death == true)
         return (birthsbyRegion);
@@ -99,7 +96,13 @@ void Input::printArray(vector<population> Array)
 
     for(auto& v : Array)
     {
-        cout << v.count << "\t\t" << v.region << "\n";
+        if (v.alive) {
+            cout << v.count << "\t\t" << v.region << "\n";
+
+        }
+        else {
+            cout << v.count << "\t\t" << v.region << "\n";
+        }
     }
 
 
@@ -184,32 +187,39 @@ int main() {
     vector<population> death = input.deathsNbirthsbyRegion(false);
 
     vector<population> Births;
+    vector<population> Deaths;
     cout << "Region\n";
-    int j=0;
     for (const auto& result : birth)
     {
-        j++;
         cout << result.region;
-        if (result.alive) {
-            cout << " Births: " << result.count;
+            cout << " Births: " << result.count<<endl;
             Births.push_back(result);
 
-        }
-        else{
-            cout <<" Deaths: " << result.count;
-
-        }
-        cout << endl;
     }
-    cout << Births.size();
-    quickSort(Births,0, 17);
-    cout << endl <<"Sorted with Qucksort by Births with pivot being the first element:\n";
-    for (const auto& result : Births)
+    cout<<"\n";
+    for (const auto& result : death)
     {
         cout << result.region;
-        cout << ": "<<result.count;
+            cout <<" Deaths: " << result.count<<endl;
+            Deaths.push_back(result);
+    }
+
+    quickSort(Births,0, 17);
+    quickSort(Deaths, 0, 17);
+    cout << endl <<"\nSorted with Qucksort by Births with pivot being the first element:\n\n";
+    for (const auto& result : Births)
+    {
+        cout << result.region <<":"<<result.count;
         cout << endl;
     }
-    input.printArray(input.deathssbyRegion);
-    input.printArray(input.birthsbyRegion);
+    cout << endl <<"Sorted with Qucksort by Deaths with pivot being the first element:\n\n";
+    for (const auto& result : Deaths)
+    {
+        cout << result.region <<":"<<result.count;
+        cout << endl;
+    }
+    cout<<"\nDeaths by region\n";
+    input.printArray(Deaths);
+    cout<<"Births by region\n";
+    input.printArray(Births);
 }
