@@ -147,6 +147,7 @@ void merge(vector<population>& Births, int left, int mid, int right) {
 
 }
 void mergeSort(vector<population>& Births, int begin, int end){
+
     if (begin >= end)
         return;
     int mid = (begin+end)/ 2;
@@ -161,12 +162,13 @@ void mergeSort(vector<population>& Births, int begin, int end){
     vector<population> results = input.deathsNbirthsbyRegion();
 
     vector<population> Births;
-    cout << "Region" << endl;
+    cout << "Regions" << endl;
     int j=0;
     for (const auto& result : results)
     {
         j++;
         cout << result.region;
+        
         if (result.alive) {
             cout << " Births: " << result.count;
             Births.push_back(result);
@@ -174,12 +176,12 @@ void mergeSort(vector<population>& Births, int begin, int end){
         }
         else{
             cout <<" Deaths: " << result.count;
-
+            
             }
-        cout << endl;
+        
+    cout << endl;
     }
-    cout << Births.size();
-    mergeSort(Births,0,17);
+    mergeSort(Births,0,Births.size()-1);
     cout << endl <<"Sorted with Mergesort by Births:"<< endl;
     for (const auto& result : Births)
     {
