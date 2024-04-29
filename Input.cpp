@@ -46,6 +46,11 @@ Input::Input()
         }
 
         
+    }
+    else
+    {
+        cout << "Error File was NOT FOUND\n";
+        exit(0);
     } 
         
 }

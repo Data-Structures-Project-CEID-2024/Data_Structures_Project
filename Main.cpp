@@ -10,11 +10,14 @@ int main()
     input.deathsNbirthsbyRegion();
     input.printArray(input.deathsbyRegion);
     // input.printArray(input.birthsbyRegion);
-
+    cout << "---- Merge Sort:Births ----\n";
+    Sort sort_Births =  Sort(input.birthsbyRegion);
+    sort_Births.mergeSort(0, sort_Births.array.size() - 1);
+    input.printArray(sort_Births.array);
 
     cout << "---- Heap Sort:Deaths ----\n";
-    Sort sort =  Sort(input.deathsbyRegion);
-    sort.Heapsort();
-    input.printArray(sort.array);
+    Sort sort_Deaths =  Sort(input.deathsbyRegion);
+    sort_Deaths.Heapsort();
+    input.printArray(sort_Deaths.array);
 
 }

@@ -53,6 +53,65 @@ void Sort::Heapsort()
         HeapifyUp(length, 0);
        
     }
-    
 }
+
+void Sort::merge(vector<population>& Births, int left, int mid, int right) 
+{
+    int  tempArrayOne = mid - left + 1;
+    int  tempArrayTwo = right - mid;
+
+    //make temp population vectors
+    vector<population> leftArray;
+    vector<population> rightArray;
+
+    for (int i = 0; i < tempArrayOne; i++)
+        leftArray.push_back(Births[left + i]);
+
+    for (int i = 0; i < tempArrayTwo; i++)
+        rightArray.push_back(Births[mid + 1 + i]);
+
+    int tempIndexOne = 0;
+    int tempIndexTwo = 0;
+    int indexOfMergedArray = left;
+
+    // Merge
+    while (tempIndexOne < tempArrayOne
+        && tempIndexTwo < tempArrayTwo) {
+        if (leftArray[tempIndexOne].count
+            <= rightArray[tempIndexTwo].count) {
+            Births[indexOfMergedArray] = leftArray[tempIndexOne];
+            tempIndexOne++;
+        } else {
+            Births[indexOfMergedArray] = rightArray[tempIndexTwo];
+            tempIndexTwo++;
+        }
+        indexOfMergedArray++;
+    }
+
+    // Copy Remaining Elements
+    while (tempIndexOne < tempArrayOne) {
+        Births[indexOfMergedArray] = leftArray[tempIndexOne];
+        tempIndexOne++;
+        indexOfMergedArray++;
+    }
+
+    while (tempIndexTwo < tempArrayTwo) {
+        Births[indexOfMergedArray] = rightArray[tempIndexTwo];
+        tempIndexTwo++;
+        indexOfMergedArray++;
+    }
+
+}
+void Sort::mergeSort(int begin, int end)
+{
+
+    if (begin >= end)
+        return;
+    int mid = (begin+end)/ 2;
+    mergeSort(begin, mid);
+    mergeSort(mid + 1, end);
+    merge(Sort::array, begin, mid, end);
+}
+    
+
 

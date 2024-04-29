@@ -10,9 +10,12 @@ class Sort{
 
             Sort(std::vector<population> v);
             void swap(population& a, population& b);
+            // Heap Sort
             void HeapifyUp(int length, int index);
             void Heapsort();
-
+            // Merge Sort
+            void merge(std::vector<population>& Births, int left, int mid, int right);
+            void mergeSort(int begin, int end);
 };
 
 #endif
