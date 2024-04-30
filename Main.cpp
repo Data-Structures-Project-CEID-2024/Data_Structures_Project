@@ -13,14 +13,24 @@ int main()
     // input.printArray(input.birthsbyRegion);
 
     cout << "---- Merge Sort:Births ----\n";
-    Sort sort_Births =  Sort(input.birthsbyRegion);
-    sort_Births.mergeSort(0, sort_Births.array.size() - 1);
-    input.printArray(sort_Births.array);
+    Sort sort_Births_Merge =  Sort(input.birthsbyRegion);
+    sort_Births_Merge.mergeSort(0, sort_Births_Merge.array.size() - 1);
+    input.printArray(sort_Births_Merge.array);
+
+    // cout << "---- Quick Sort:Births ----\n";
+    // Sort sort_Births_Quick =  Sort(input.birthsbyRegion);
+    // sort_Births_Quick.mergeSort(0, sort_Births_Quick.array.size() - 1);
+    // input.printArray(sort_Births_Quick.array);
 
     cout << "---- Heap Sort:Deaths ----\n";
-    Sort sort_Deaths =  Sort(input.deathsbyRegion);
-    sort_Deaths.Heapsort();
-    input.printArray(sort_Deaths.array);
+    Sort sort_Deaths_Heap =  Sort(input.deathsbyRegion);
+    sort_Deaths_Heap.Heapsort();
+    input.printArray(sort_Deaths_Heap.array);
+
+    cout << "---- Counting Sort:Deaths ----\n";
+    Sort sort_Deaths_Counting =  Sort(input.deathsbyRegion);
+    sort_Deaths_Counting.CountingSort();
+    input.printArray(sort_Deaths_Counting.array);
 
 
     cout << "---- BIS:Births ----\n";
@@ -31,4 +41,5 @@ int main()
         cout << "Element: " << find << " was found in index: " << index << " Element == Array[index]: " << find << " == " << input.birthsbyRegion[index].count << " Region: " << input.birthsbyRegion[index].region <<"\n";
     else    
         cout << find << " is not element of the Array\n";
+
 }

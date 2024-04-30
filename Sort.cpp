@@ -104,7 +104,6 @@ void Sort::merge(vector<population>& Births, int left, int mid, int right)
 }
 void Sort::mergeSort(int begin, int end)
 {
-
     if (begin >= end)
         return;
     int mid = (begin+end)/ 2;
@@ -114,4 +113,107 @@ void Sort::mergeSort(int begin, int end)
 }
     
 
+void Sort::CountingSort()
+{
+    vector<int> freq;
+    vector<population> out;
 
+    for( int i=0; i < (int)array.size(); i++ )
+    {
+        while(array[i].count >= (int)freq.size()) // Fix Complexity Max
+        {
+            freq.push_back(0);
+        }
+        freq[array[i].count]++;
+    }
+    for( int i=1; i < (int)freq.size(); i++ )
+    {
+        freq[i] = freq[i]+freq[i - 1];
+    }
+
+    for( int i=array.size()-1; i >= 0; i-- )
+    {
+        while(freq[array[i].count - 1] >= (int)out.size()) //Fix Complexity
+        {
+            population p;
+            p.count =0;
+            out.push_back(p);
+        }
+        out[freq[array[i].count] - 1]=array[i];
+        freq[array[i].count]--;
+    }
+    array = out;
+}
+
+// void Sort::MakeQuick(int left, int mid, int right) 
+// {
+//     int  tempLeftArr = mid - left + 1;
+//     int  tempRightArr = right - mid;
+//     vector<population> LeftArray;
+//     vector<population> RightArray;
+
+//     int tempIndexOne = 0;
+//     int tempIndexTwo = 0;
+//     int indexOfMergedArray = left;
+
+//     while (tempIndexOne < tempLeftArr && tempIndexTwo < tempRightArr) 
+//     {
+//         if (LeftArray[tempIndexOne].count <= RightArray[tempIndexTwo].count) 
+//         {
+//             array[indexOfMergedArray] = LeftArray[tempIndexOne];
+//             tempIndexOne++;
+//         } else {
+//             array[indexOfMergedArray] = RightArray[tempIndexTwo];
+//             tempIndexTwo++;
+//         }
+//         indexOfMergedArray++;
+//     }
+
+//     while (tempIndexOne < tempLeftArr) 
+//     {
+//         array[indexOfMergedArray] = LeftArray[tempIndexOne];
+//         tempIndexOne++;
+//         indexOfMergedArray++;
+//     }
+
+//     while (tempIndexTwo < tempRightArr) 
+//     {
+//         array[indexOfMergedArray] = RightArray[tempIndexTwo];
+//         tempIndexTwo++;
+//         indexOfMergedArray++;
+//     }
+
+
+// }
+
+// void Sort::quickSort(int begin, int end) 
+// {
+//     if (begin < end) 
+//     {
+//         int pivotIndex = begin;
+//         int pivot = array[pivotIndex].count;
+//         int middle = (begin+end)/2;
+//         int i = begin + 1;
+//         int j = end;
+
+//         while (i <= j) {
+//             while (i <= j && array[i].count <= pivot) 
+//             {
+//                 i++;
+//             }
+//             while (j >= i && array[j].count > pivot) 
+//             {
+//                 j--;
+//             }
+//             if (i < j) {
+//                 swap(array[i], array[j]);
+//             }
+//         }
+//         swap(array[pivotIndex], array[j]);
+//         pivotIndex = j;
+
+//         quickSort( begin, pivotIndex - 1);
+//         quickSort( pivotIndex + 1, end);
+//         MakeQuick(begin, middle, end);
+//     }
+// }
