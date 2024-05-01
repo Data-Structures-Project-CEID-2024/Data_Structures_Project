@@ -108,75 +108,35 @@ void Input::printArray(vector<population> Array)
 
     cout << "\n";
 }
-void quick(vector<population>& Births, int left, int mid, int right) {
+int partition(vector<population>& Births, int left, int right) {
 
-    int  tempLeftArr = mid - left + 1;
-    int  tempRightArr = right - mid;
-    vector<population> LeftArray;
-    vector<population> RightArray;
+    int pivotValue = Births[left].count; // to aristerotero stoixeiokathe sub-array ws pivot
 
-    for (int i = 0; i < tempLeftArr; i++)
-        LeftArray.push_back(Births[left + i]);
+    int storeIndex = left + 1;
 
-    for (int i = 0; i < tempRightArr; i++)
-        RightArray.push_back(Births[mid + 1 + i]);
-
-    int tempIndexOne = 0;
-    int tempIndexTwo = 0;
-    int indexOfMergedArray = left;
-
-    while (tempIndexOne < tempLeftArr && tempIndexTwo < tempRightArr) {
-        if (LeftArray[tempIndexOne].count <= RightArray[tempIndexTwo].count) {
-            Births[indexOfMergedArray] = LeftArray[tempIndexOne];
-            tempIndexOne++;
-        } else {
-            Births[indexOfMergedArray] = RightArray[tempIndexTwo];
-            tempIndexTwo++;
+    // Partitioning gyrw apo to pivot
+    for (int i = left + 1; i <= right; i++) {
+        if (Births[i].count < pivotValue) {
+            swap(Births[i], Births[storeIndex]);
+            storeIndex++; //sto telos kserw mesw tou storeIndex poses allages exw kanei ara h thesh tou pivot sto final array einai sth thesh ish me ton arithmo twn allagwn
         }
-        indexOfMergedArray++;
     }
 
-    while (tempIndexOne < tempLeftArr) {
-        Births[indexOfMergedArray] = LeftArray[tempIndexOne];
-        tempIndexOne++;
-        indexOfMergedArray++;
-    }
+    swap(Births[left], Births[storeIndex - 1]);  // sto telos kathe partitioning vazoume to pivot sth thesh tou
 
-    while (tempIndexTwo < tempRightArr) {
-        Births[indexOfMergedArray] = RightArray[tempIndexTwo];
-        tempIndexTwo++;
-        indexOfMergedArray++;
-    }
-
-
+    return storeIndex - 1;
 }
+
 void quickSort(vector<population>& Births, int begin, int end) {
     if (begin < end) {
-        int pivotIndex = begin;
-        int pivot = Births[pivotIndex].count;
-        int mid = (begin+end)/2;
-        int i = begin + 1;
-        int j = end;
+        int pivotIndex = partition(Births, begin, end);
 
-        while (i <= j) {
-            while (i <= j && Births[i].count <= pivot) {
-                i++;
-            }
-            while (j >= i && Births[j].count > pivot) {
-                j--;
-            }
-            if (i < j) {
-                swap(Births[i], Births[j]);
-            }
-        }
-        swap(Births[pivotIndex], Births[j]);
-        pivotIndex = j;
-
+        //sort ta aristera(mikrotera tou pivot) kai deksia(megalytera tou pivot) arrays
         quickSort(Births, begin, pivotIndex - 1);
         quickSort(Births, pivotIndex + 1, end);
-        quick(Births, begin, mid, end);
     }
 }
+
 
 
 
@@ -184,10 +144,8 @@ void quickSort(vector<population>& Births, int begin, int end) {
 int main() {
     Input input = Input();
     vector<population> birth  = input.deathsNbirthsbyRegion(true);
-    vector<population> death = input.deathsNbirthsbyRegion(false);
 
     vector<population> Births;
-    vector<population> Deaths;
     cout << "Region\n";
     for (const auto& result : birth)
     {
@@ -197,29 +155,13 @@ int main() {
 
     }
     cout<<"\n";
-    for (const auto& result : death)
-    {
-        cout << result.region;
-            cout <<" Deaths: " << result.count<<endl;
-            Deaths.push_back(result);
-    }
 
-    quickSort(Births,0, 17);
-    quickSort(Deaths, 0, 17);
+    quickSort(Births,0, 16);
     cout << endl <<"\nSorted with Qucksort by Births with pivot being the first element:\n\n";
     for (const auto& result : Births)
     {
         cout << result.region <<":"<<result.count;
         cout << endl;
     }
-    cout << endl <<"Sorted with Qucksort by Deaths with pivot being the first element:\n\n";
-    for (const auto& result : Deaths)
-    {
-        cout << result.region <<":"<<result.count;
-        cout << endl;
-    }
-    cout<<"\nDeaths by region\n";
-    input.printArray(Deaths);
-    cout<<"Births by region\n";
-    input.printArray(Births);
+
 }
