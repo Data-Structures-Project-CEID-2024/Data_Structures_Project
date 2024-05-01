@@ -11,7 +11,7 @@ class Search{
 
             Search(std::vector<population> v); 
             int BinaryInterpolationSearch(int x);
-            int LinearSearch(int x);
+            int LinearSearch(int start, int end, int x);
 };
 
 #endif

@@ -35,10 +35,13 @@ int main()
 
     cout << "---- BIS:Births ----\n";
     Search search_Births =  Search(input.birthsbyRegion);
+
+    input.printArray(search_Births.array);
+
     int find = 859365;
     int index = search_Births.BinaryInterpolationSearch(find);
     if (index != -1)
-        cout << "Element: " << find << " was found in index: " << index << " Element == Array[index]: " << find << " == " << input.birthsbyRegion[index].count << " Region: " << input.birthsbyRegion[index].region <<"\n";
+        cout << "Element: " << find << " was found in index: " << index << " Element == Array[index]: " << find << " == " << search_Births.array[index].count << " Region: " << search_Births.array[index].region <<"\n";
     else    
         cout << find << " is not element of the Array\n";
 

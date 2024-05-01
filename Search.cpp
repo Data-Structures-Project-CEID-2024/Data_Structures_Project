@@ -6,12 +6,41 @@ using namespace std;
 
 Search::Search(vector<population> v)
 {   
-    array = v;
+    int i;
+    int b1,b2;
+
+    try
+    {
+        // We could but an if statement because for
+        // small values of b1,b2 there is a segmentation fault
+        cout << "[b1,b2] " << "b1: ";
+        cin >> b1;
+        cout << "b2: ";
+        cin >> b2;
+
+        b1 = 432084;
+        b2 = 859365;
+        
+        i = 0;
+        while (v[i].count < b1)
+            i++;
+        
+        while (v[i].count <= b2)
+        {
+            array.push_back(v[i]);
+            i ++;
+        }
+    }
+    catch (runtime_error& e)
+    {
+        array = v;
+    }
+
 }
 
-int Search::LinearSearch(int x)
+int Search::LinearSearch( int start, int end, int x)
 {
-    for (int i = 0 ; i <= 3; i++)
+    for (int i = 0 + start; i <= 3 + end; i++)
     {
         if (array[i].count == x)
             return i;
@@ -31,10 +60,13 @@ int Search::BinaryInterpolationSearch(int x)
     {
         index   = 0;
         size    = right - left + 1;
-        next    = int(size * ((x - array[left].count ) / (array[right].count - array[left].count))) + left ;
+
+        // Note -1 was added lately because there was a problem
+        // when the x was the item in the most right part !
+        next    = int(size * ((x - array[left].count ) / (array[right].count - array[left].count))) + left - 1 ;
         
         if (size <= 3)
-            return(LinearSearch(x));
+            return(LinearSearch(left,right,x));
         
         if (x > array[next].count)
         {
@@ -54,7 +86,6 @@ int Search::BinaryInterpolationSearch(int x)
         }            
         
     }while(x != array[next].count);
-
     return (next);
 
 }
