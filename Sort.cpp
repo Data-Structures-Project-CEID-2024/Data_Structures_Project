@@ -111,36 +111,47 @@ void Sort::mergeSort(int begin, int end)
     mergeSort(mid + 1, end);
     merge(Sort::array, begin, mid, end);
 }
-    
 
-void Sort::CountingSort()
-{
+void Sort::CountingSort(vector<population>& input){
     vector<int> freq;
     vector<population> out;
 
-    for( int i=0; i < (int)array.size(); i++ )
-    {
-        while(array[i].count >= (int)freq.size()) // Fix Complexity Max
-        {
-            freq.push_back(0);
+//---//
+    int maxV = 0;
+    for(auto & i : input){
+        if( i.count > (int)maxV ){
+            maxV = i.count;
         }
-        freq[array[i].count]++;
     }
-    for( int i=1; i < (int)freq.size(); i++ )
-    {
-        freq[i] = freq[i]+freq[i - 1];
+    for( int i=0; i <= (int)maxV; i++){
+        freq.push_back(0);
+    }
+//---//
+
+    for( int i=0; i < (int)input.size(); i++ ){
+        freq[input[i].count]++;
+    }
+    for( int i=1; i < (int)freq.size(); i++ ){
+        freq[i] = freq[i]+freq[i-1];
     }
 
-    for( int i=array.size()-1; i >= 0; i-- )
-    {
-        while(freq[array[i].count - 1] >= (int)out.size()) //Fix Complexity
-        {
-            population p;
-            p.count =0;
-            out.push_back(p);
+//---//
+    int maxF = 0;
+    for(int i : freq){
+        if( i > (int)maxF ){
+            maxF = i;
         }
-        out[freq[array[i].count] - 1]=array[i];
-        freq[array[i].count]--;
+    }
+    for( int i=0; i < (int)maxF; i++){
+        population p;
+        p.count =0;
+        out.push_back(p);
+    }
+//---//
+
+    for( int i=input.size()-1; i >= 0; i-- ){
+        out[freq[input[i].count]-1]=input[i];
+        freq[input[i].count]--;
     }
     array = out;
 }

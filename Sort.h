@@ -20,7 +20,7 @@ class Sort{
             void mergeSort(int begin, int end);
             
             // Counting Sort
-            void CountingSort();
+            void CountingSort(std::vector<population>& array);
 
             // Quick Sort
             // void Sort::quickSort(int begin, int end); 

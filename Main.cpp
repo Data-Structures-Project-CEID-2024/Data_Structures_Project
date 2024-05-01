@@ -29,7 +29,7 @@ int main()
 
     cout << "---- Counting Sort:Deaths ----\n";
     Sort sort_Deaths_Counting =  Sort(input.deathsbyRegion);
-    sort_Deaths_Counting.CountingSort();
+    sort_Deaths_Counting.CountingSort(input.deathsbyRegion);
     input.printArray(sort_Deaths_Counting.array);
 
 
