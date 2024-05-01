@@ -112,49 +112,85 @@ void Sort::mergeSort(int begin, int end)
     merge(Sort::array, begin, mid, end);
 }
 
-void Sort::CountingSort(vector<population>& input){
-    vector<int> freq;
-    vector<population> out;
+//void Sort::CountingSort(vector<population>& input){
+//    vector<int> freq;
+//    vector<population> out;
+//
+////---//
+//    int maxV = 0;
+//    for(auto & i : input){
+//        if( i.count > (int)maxV ){
+//            maxV = i.count;
+//        }
+//    }
+//    for( int i=0; i <= (int)maxV; i++){
+//        freq.push_back(0);
+//    }
+////---//
+//
+//    for( int i=0; i < (int)input.size(); i++ ){
+//        freq[input[i].count]++;
+//    }
+//    for( int i=1; i < (int)freq.size(); i++ ){
+//        freq[i] = freq[i]+freq[i-1];
+//    }
+//
+////---//
+//    int maxF = 0;
+//    for(int i : freq){
+//        if( i > (int)maxF ){
+//            maxF = i;
+//        }
+//    }
+//    for( int i=0; i < (int)maxF; i++){
+//        population p;
+//        p.count =0;
+//        out.push_back(p);
+//    }
+////---//
+//
+//    for( int i=input.size()-1; i >= 0; i-- ){
+//        out[freq[input[i].count]-1]=input[i];
+//        freq[input[i].count]--;
+//    }
+//    array = out;
+//}
 
-//---//
+void Sort::CountingSort(vector<population>& input){
+    vector<int> freq; //Frequency array των τιμών του input
+    vector<population> out; //sort-αρισμένο output  του array input
+
+    //Αρχικοποίηση του frequency array υπολογίζοντας το max value των τιμών εισόδου
     int maxV = 0;
     for(auto & i : input){
-        if( i.count > (int)maxV ){
+        if( i.count > maxV ){
             maxV = i.count;
         }
     }
-    for( int i=0; i <= (int)maxV; i++){
-        freq.push_back(0);
-    }
-//---//
+    freq.resize(maxV + 1, 0);
 
-    for( int i=0; i < (int)input.size(); i++ ){
-        freq[input[i].count]++;
+    //Κατάθεση τιμών που αντιπροσωπεύουν το πλήθος επαναλήψεων του index αριθμού στο freq array
+    for(const auto& i : input){
+        freq[i.count]++;
     }
-    for( int i=1; i < (int)freq.size(); i++ ){
-        freq[i] = freq[i]+freq[i-1];
+    //Υπολογισμός και κατάθεση των προηγούμενα εμφανιζόμενων στοιχείων βάσει των τιμών του freq array ανα index
+    for(int i = 1; i < (int)freq.size(); i++){
+        freq[i] += freq[i - 1];
     }
 
-//---//
-    int maxF = 0;
-    for(int i : freq){
-        if( i > (int)maxF ){
-            maxF = i;
-        }
-    }
-    for( int i=0; i < (int)maxF; i++){
-        population p;
-        p.count =0;
-        out.push_back(p);
-    }
-//---//
+    //Αρχικοποίηση του array εξόδου για να ταιριάζει με το μέγεθος του array εισόδου
+    out.resize(input.size());
 
-    for( int i=input.size()-1; i >= 0; i-- ){
-        out[freq[input[i].count]-1]=input[i];
+    //Κατάθεση των τιμών του input σε κατάλληλες θέσεις του output βάσει του frequency array
+    for(int i = input.size() - 1; i >= 0; i--){
+        out[freq[input[i].count] - 1] = input[i];
         freq[input[i].count]--;
     }
+
+    //Ανάθεση της εξόδου στο μέλος της κλάσης Sort, array
     array = out;
 }
+
 
 // void Sort::MakeQuick(int left, int mid, int right) 
 // {
