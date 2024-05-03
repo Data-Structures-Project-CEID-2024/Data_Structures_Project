@@ -27,6 +27,8 @@ void Sort::HeapifyUp(int length, int index)
 
     if (leftchild < length && array[max_index].count < array[leftchild].count)
         max_index = leftchild;
+    else
+        max_index = index;
 
     if (rightchild < length && array[max_index].count < array[rightchild].count)
         max_index = rightchild;
@@ -42,11 +44,14 @@ void Sort::Heapsort()
 {
     int length = array.size();
 
-    for (int i = 0; i < length; i++)
+    // We should read the array from the back to the begining,
+    // because HeapifyUp is built to make swaps from top to bottom
+    // so every time the max element in the array is in the 0 index
+    for (int i = length; i >= 0; i--)
         HeapifyUp(length, i);
 
 
-    for (int i = length - 1; i > 0; i--)
+    for (int i = length - 1; i >= 0; i--)
     {
         length = length - 1;   
         swap(array[0], array[length]);
@@ -102,121 +107,74 @@ void Sort::merge(vector<population>& Births, int left, int mid, int right)
     }
 
 }
-void Sort::mergeSort(int begin, int end)
+void Sort::MergeSort(int begin, int end)
 {
     if (begin >= end)
         return;
     int mid = (begin+end)/ 2;
-    mergeSort(begin, mid);
-    mergeSort(mid + 1, end);
+    MergeSort(begin, mid);
+    MergeSort(mid + 1, end);
     merge(Sort::array, begin, mid, end);
 }
+    
 
-void Sort::CountingSort(vector<population>& input){
-    vector<int> freq; //Frequency array των τιμών του input
-    vector<population> out; //sort-αρισμένο output  του array input
+void Sort::CountingSort()
+{
+    vector<int> freq;
+    vector<population> out;
 
-    //Αρχικοποίηση του frequency array υπολογίζοντας το max value των τιμών εισόδου
-    int maxV = 0;
-    for(auto & i : input){
-        if( i.count > maxV ){
-            maxV = i.count;
+    for( int i=0; i < (int)array.size(); i++ )
+    {
+        while(array[i].count >= (int)freq.size()) // Fix Complexity Max
+        {
+            freq.push_back(0);
         }
+        freq[array[i].count]++;
     }
-    freq.resize(maxV + 1, 0);
-
-    //Κατάθεση τιμών που αντιπροσωπεύουν το πλήθος επαναλήψεων του index αριθμού στο freq array
-    for(auto& i : input){
-        freq[i.count]++;
-    }
-    //Υπολογισμός και κατάθεση των προηγούμενα εμφανιζόμενων στοιχείων βάσει των τιμών του freq array ανα index
-    for(int i = 1; i < (int)freq.size(); i++){
-        freq[i] += freq[i - 1];
+    for( int i=1; i < (int)freq.size(); i++ )
+    {
+        freq[i] = freq[i]+freq[i - 1];
     }
 
-    //Αρχικοποίηση του array εξόδου για να ταιριάζει με το μέγεθος του array εισόδου
-    out.resize(input.size());
-
-    //Κατάθεση των τιμών του input σε κατάλληλες θέσεις του output βάσει του frequency array
-    for(int i = input.size() - 1; i >= 0; i--){
-        out[freq[input[i].count] - 1] = input[i];
-        freq[input[i].count]--;
+    for( int i=array.size()-1; i >= 0; i-- )
+    {
+        while(freq[array[i].count - 1] >= (int)out.size()) //Fix Complexity
+        {
+            population p;
+            p.count =0;
+            out.push_back(p);
+        }
+        out[freq[array[i].count] - 1]=array[i];
+        freq[array[i].count]--;
     }
-
-    //Ανάθεση της εξόδου στο μέλος της κλάσης Sort, array
     array = out;
 }
 
+int Sort::partition(vector<population>& Births, int left, int right) {
 
-// void Sort::MakeQuick(int left, int mid, int right) 
-// {
-//     int  tempLeftArr = mid - left + 1;
-//     int  tempRightArr = right - mid;
-//     vector<population> LeftArray;
-//     vector<population> RightArray;
+    int pivotValue = Births[left].count; // to aristerotero stoixeiokathe sub-array ws pivot
 
-//     int tempIndexOne = 0;
-//     int tempIndexTwo = 0;
-//     int indexOfMergedArray = left;
+    int storeIndex = left + 1;
 
-//     while (tempIndexOne < tempLeftArr && tempIndexTwo < tempRightArr) 
-//     {
-//         if (LeftArray[tempIndexOne].count <= RightArray[tempIndexTwo].count) 
-//         {
-//             array[indexOfMergedArray] = LeftArray[tempIndexOne];
-//             tempIndexOne++;
-//         } else {
-//             array[indexOfMergedArray] = RightArray[tempIndexTwo];
-//             tempIndexTwo++;
-//         }
-//         indexOfMergedArray++;
-//     }
+    // Partitioning gyrw apo to pivot
+    for (int i = left + 1; i <= right; i++) {
+        if (Births[i].count < pivotValue) {
+            swap(Births[i], Births[storeIndex]);
+            storeIndex++; //sto telos kserw mesw tou storeIndex poses allages exw kanei ara h thesh tou pivot sto final array einai sth thesh ish me ton arithmo twn allagwn
+        }
+    }
 
-//     while (tempIndexOne < tempLeftArr) 
-//     {
-//         array[indexOfMergedArray] = LeftArray[tempIndexOne];
-//         tempIndexOne++;
-//         indexOfMergedArray++;
-//     }
+    swap(Births[left], Births[storeIndex - 1]);  // sto telos kathe partitioning vazoume to pivot sth thesh tou
 
-//     while (tempIndexTwo < tempRightArr) 
-//     {
-//         array[indexOfMergedArray] = RightArray[tempIndexTwo];
-//         tempIndexTwo++;
-//         indexOfMergedArray++;
-//     }
+    return storeIndex - 1;
+}
 
+void Sort::QuickSort( int begin, int end) {
+    if (begin < end) {
+        int pivotIndex = partition(array, begin, end);
 
-// }
-
-// void Sort::quickSort(int begin, int end) 
-// {
-//     if (begin < end) 
-//     {
-//         int pivotIndex = begin;
-//         int pivot = array[pivotIndex].count;
-//         int middle = (begin+end)/2;
-//         int i = begin + 1;
-//         int j = end;
-
-//         while (i <= j) {
-//             while (i <= j && array[i].count <= pivot) 
-//             {
-//                 i++;
-//             }
-//             while (j >= i && array[j].count > pivot) 
-//             {
-//                 j--;
-//             }
-//             if (i < j) {
-//                 swap(array[i], array[j]);
-//             }
-//         }
-//         swap(array[pivotIndex], array[j]);
-//         pivotIndex = j;
-
-//         quickSort( begin, pivotIndex - 1);
-//         quickSort( pivotIndex + 1, end);
-//         MakeQuick(begin, middle, end);
-//     }
-// }
+        //sort ta aristera(mikrotera tou pivot) kai deksia(megalytera tou pivot) arrays
+        QuickSort(begin, pivotIndex - 1);
+        QuickSort(pivotIndex + 1, end);
+    }
+}

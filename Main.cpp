@@ -14,13 +14,13 @@ int main()
 
     cout << "---- Merge Sort:Births ----\n";
     Sort sort_Births_Merge =  Sort(input.birthsbyRegion);
-    sort_Births_Merge.mergeSort(0, sort_Births_Merge.array.size() - 1);
+    sort_Births_Merge.MergeSort(0, sort_Births_Merge.array.size() - 1);
     input.printArray(sort_Births_Merge.array);
 
-    // cout << "---- Quick Sort:Births ----\n";
-    // Sort sort_Births_Quick =  Sort(input.birthsbyRegion);
-    // sort_Births_Quick.mergeSort(0, sort_Births_Quick.array.size() - 1);
-    // input.printArray(sort_Births_Quick.array);
+    cout << "---- Quick Sort:Births ----\n";
+    Sort sort_Births_Quick =  Sort(input.birthsbyRegion);
+    sort_Births_Quick.QuickSort(0, sort_Births_Quick.array.size() - 1);
+    input.printArray(sort_Births_Quick.array);
 
     cout << "---- Heap Sort:Deaths ----\n";
     Sort sort_Deaths_Heap =  Sort(input.deathsbyRegion);
@@ -29,13 +29,12 @@ int main()
 
     cout << "---- Counting Sort:Deaths ----\n";
     Sort sort_Deaths_Counting =  Sort(input.deathsbyRegion);
-    sort_Deaths_Counting.CountingSort(input.deathsbyRegion);
+    sort_Deaths_Counting.CountingSort();
     input.printArray(sort_Deaths_Counting.array);
 
 
     cout << "---- BIS:Births ----\n";
     Search search_Births =  Search(input.birthsbyRegion);
-
     input.printArray(search_Births.array);
 
     int find = 859365;
