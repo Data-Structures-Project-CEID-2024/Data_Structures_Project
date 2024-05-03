@@ -43,7 +43,6 @@ void Sort::HeapifyUp(int length, int index)
 void Sort::Heapsort()
 {
     int length = array.size();
-
     // We should read the array from the back to the begining,
     // because HeapifyUp is built to make swaps from top to bottom
     // so every time the max element in the array is in the 0 index
