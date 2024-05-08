@@ -5,14 +5,11 @@ using namespace std;
 
 
 Search::Search(vector<population> v)
-{   
-    int i;
-    int b1,b2;
+{
 
     try
     {
-        // We could but an if statement because for
-        // small values of b1,b2 there is a segmentation fault
+        array = v;
         cout << "[b1,b2] " << "b1: ";
         cin >> b1;
         cout << "b2: ";
@@ -20,16 +17,7 @@ Search::Search(vector<population> v)
 
         b1 = 432084;
         b2 = 859365;
-        
-        i = 0;
-        while (v[i].count < b1)
-            i++;
-        
-        while (v[i].count <= b2)
-        {
-            array.push_back(v[i]);
-            i ++;
-        }
+
     }
     catch (runtime_error& e)
     {
@@ -46,6 +34,16 @@ int Search::LinearSearch( int start, int end, int x)
             return i;
     }
     return (-1);
+}
+
+void Search::rangeParse()
+{
+    int i = findIndex;
+    cout << "\n" << " index is: " << i << "\n";
+    while(array[i].count <= b2){
+        rangeArray.push_back(array[i]);
+        i++;
+    }
 }
 
 int Search::BinaryInterpolationSearch(int x)
@@ -88,5 +86,28 @@ int Search::BinaryInterpolationSearch(int x)
     }while(x != array[next].count);
     return (next);
 
+}
+
+// No region of operation
+int Search::BinarySearch(){
+    int key = b1;
+    int lower = 0;
+    int upper = array.size() - 1;
+    int mid = 0;
+    while( lower <= upper ){
+        mid  = floor((lower + upper) / 2);
+        if( array[mid].count < key ){
+            lower = mid + 1;
+        }
+        else if(array[mid].count > key){
+            upper = mid - 1;
+        }
+        else{
+            findIndex = mid;
+            return mid;
+        }
+    }
+    findIndex = -1;
+    return -1;
 }
 

@@ -32,17 +32,26 @@ int main()
     sort_Deaths_Counting.CountingSort(input.deathsbyRegion);
     input.printArray(sort_Deaths_Counting.array);
 
-
-    cout << "---- BIS:Births ----\n";
-    Search search_Births =  Search(input.birthsbyRegion);
-
+    cout << "---- BinarySearch:Births ----\n";
+    Search search_Births = Search(input.birthsbyRegion);
     input.printArray(search_Births.array);
-
-    int find = 859365;
-    int index = search_Births.BinaryInterpolationSearch(find);
+    int index = search_Births.BinarySearch();
+    search_Births.rangeParse();
+    input.printArray(search_Births.rangeArray);
     if (index != -1)
-        cout << "Element: " << find << " was found in index: " << index << " Element == Array[index]: " << find << " == " << search_Births.array[index].count << " Region: " << search_Births.array[index].region <<"\n";
-    else    
-        cout << find << " is not element of the Array\n";
+        cout << "Element: " << search_Births.b1 << " was found in index: " << index << " Element == Array[index]: " << search_Births.b1 << " == " << search_Births.array[index].count << " Region: " << search_Births.array[index].region <<"\n";
+    else
+        cout << search_Births.b1 << " is not element of the Array\n";
+
+
+//    cout << "---- BIS:Births ----\n";
+//    Search search_Births =  Search(input.birthsbyRegion);
+//    input.printArray(search_Births.array);
+//    int find = 859365;
+//    int index = search_Births.BinaryInterpolationSearch(find);
+//    if (index != -1)
+//        cout << "Element: " << find << " was found in index: " << index << " Element == Array[index]: " << find << " == " << search_Births.array[index].count << " Region: " << search_Births.array[index].region <<"\n";
+//    else
+//        cout << find << " is not element of the Array\n";
 
 }
