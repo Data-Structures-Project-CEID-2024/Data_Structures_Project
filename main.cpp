@@ -137,6 +137,44 @@ void quickSort(vector<population>& Births, int begin, int end) {
     }
 }
 
+//int interpolationSearch(vector<population>& Births, int low, int high, int b1) {
+//    int pos;
+//
+//    if (low <= high && b1 >= Births[low].count && b1 <= Births[high].count) {
+//        pos = low + (((double)(high - low) / (Births[high].count - Births[low].count)) * (b1 - Births[low].count));
+//
+//        if (Births[pos].count == b1)
+//            return pos;
+//
+//        if (Births[pos].count < b1)
+//            return interpolationSearch(Births, pos + 1, high, b1);
+//
+//        if (Births[pos].count > b1)
+//            return interpolationSearch(Births, low, pos - 1, b1);
+//    }
+//
+//    return -1;
+//}
+int interpolationSearch(vector<population>& Births, int low, int high, int b1) {
+    int closestIndex = -1;
+    int pos;
+
+    while (low <= high && b1 >= Births[low].count && b1 <= Births[high].count) {
+        pos = low + (((double)(high - low) / (Births[high].count - Births[low].count)) * (b1 - Births[low].count));
+
+        if (Births[pos].count == b1) {
+            return pos;
+        } else if (Births[pos].count < b1) {
+            closestIndex = pos+1;
+            low = pos + 1;
+        } else {
+            closestIndex = pos;
+            high = pos - 1;
+        }
+    }
+
+    return closestIndex;
+}
 
 
 
@@ -164,4 +202,24 @@ int main() {
         cout << endl;
     }
 
+    int b1;
+    cout << "\nEnter the range you want to search[b1]";
+    cin >> b1;
+
+//    int searchResults = interpolationSearch(Births, 0, 16, b1);
+//
+//    if (searchResults != -1)
+//        cout << "Element found at index " << searchResults;
+//    else
+//        cout << "Element not found.";
+//
+//    return 0;
+    int closestIndex = interpolationSearch(Births, 0, Births.size() - 1, b1);
+
+    if (closestIndex != -1) {
+        cout << "Closest element to " << b1 << " that is bigger or equal: " << Births[closestIndex].count << '\n';
+        cout << "Region: " << Births[closestIndex].region << '\n';
+    } else {
+        cout << "No element found that is bigger or equal to " << b1 << '\n';
+    }
 }
