@@ -84,6 +84,7 @@ int Search::BinaryInterpolationSearch(int x)
         }            
         
     }while(x != array[next].count);
+    findIndex = next;
     return (next);
 
 }
