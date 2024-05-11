@@ -40,7 +40,13 @@ int Search::LinearSearch( int start, int end, int x)
 
 void Search::rangeParse()
 {
-    int i = findIndex;
+    int i;
+    if ( findIndex<0){
+        i = -findIndex;
+    }
+    else{
+        i = findIndex;
+    }
     cout << "\n" << "Find index is: " << i << "\n";
     while(array[i].count <= b2){
         rangeArray.push_back(array[i]);
@@ -110,7 +116,8 @@ int Search::InterpolationSearch(int key){
         }
     }
 
-    return closestIndex;
+    findIndex = -closestIndex;
+    return findIndex;
 }
 
 int Search::BinarySearch(int key){
@@ -135,12 +142,12 @@ int Search::BinarySearch(int key){
     }
     //Cases of not existent key returning the correct pointer for rangeParse() :
     if( array[mid].count < key){
-        findIndex = mid + 1;
-        return -1;
+        findIndex = - ( mid + 1 );
+        return findIndex;
     }
     else{
-        findIndex = mid;
-        return -1;
+        findIndex = -mid;
+        return findIndex;
     }
 }
 
