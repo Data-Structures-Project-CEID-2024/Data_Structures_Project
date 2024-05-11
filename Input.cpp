@@ -5,6 +5,7 @@
 #include <cctype> 
 #include<vector>
 #include "Struct.h"
+#include <math.h>
 
 using namespace std;
 
@@ -71,7 +72,7 @@ class Input
             int count_births = 0;
             for (int region_id = 0; region_id < 17; region_id++) //2022-2005=17 years of data (for each year)
             {
-                for (int i = region_id; i < input.size();  i+= 36) //36 are the rows that each years takes (for each region)
+                for (int i = region_id; i < (int)input.size();  i+= 36) //36 are the rows that each years takes (for each region)
                 {
                     count_births += input[i].count;
                     // cout << input[i].count << "\t";
@@ -84,7 +85,7 @@ class Input
                 deathsNbirthsbyRegion.push_back(byRegion_births);
 
                 int count_deaths = 0;           
-                for (int i = region_id + 18; i < input.size();  i+= 36)
+                for (int i = region_id + 18; i < (int)input.size();  i+= 36)
                 {
                     count_deaths += input[i].count;
                 }
@@ -100,6 +101,76 @@ class Input
             return (deathsNbirthsbyRegion);
         }
 };
+
+int binarySearch(vector <population> array, int l, int r, int x, int step)
+{
+     
+    while (l <= r) {
+        int m = floor((l + r - l) / 2*step);
+        // Check if x is present at mid
+        if (x > array[m].count && x < array[m+step].count){
+            if (step !=0) {
+                l =m;
+                r = m+step;
+                step = sqrt(step);
+            }
+            //binarySearch(array, m, m + step, x, sqrt(step));
+            else if (x==array[m].count) return m;
+            else return -1;
+        }
+        // If x greater, ignore left half
+        else if (x > array[m].count)
+            l = m + step;
+
+        // If x is smaller, ignore right half
+        else
+            r = m - step;
+    }
+    // If we reach here, then element was not present
+    return -1;
+}
+int BinaryInterpolationSearch(int x, vector<population> array)
+{
+    int next; int index;
+    int size = array.size();
+    int left = 1;
+    int right = size - 1;
+    
+    do
+    {
+        index   = 0;
+        size    = right - left + 1;
+
+        next    = int(size * ((x - array[left].count ) / (array[right].count - array[left].count))) + left - 1 ;
+        
+        if ((x > array[next + pow(2,index)*sqrt(size)].count)&&(x <= array[next + pow(2,index+1)*sqrt(size)].count)) // if (array[next +2^i<x<array[nex+2^i+1]])
+           {
+            int step = ceil( size / sqrt(size));
+            cout << "\nhello"; 
+            return(binarySearch(array, left, right, x, step));}
+            
+        if (x > array[next].count)
+        {
+            while( x > array[next + pow(2, index)* sqrt(size) - 1].count)
+                index = index + 1;
+            
+            right = next + pow(index, 2) * sqrt(size);
+            //left = next + pow(index-1, 2) * sqrt(size);
+        }
+        else if ( x < array[next].count)
+        {
+            while( x < array[next - pow(2, index)* sqrt(size) + 1].count)
+                index = index + 1;
+            
+           //right = next + pow(index-1, 2) * sqrt(size);
+            left = next + pow(index, 2) * sqrt(size);
+        }            
+      
+    }while(x!=array[next].count);
+    
+    return (next);
+
+}
 void merge(vector<population>& Births, int left, int mid, int right) {
     int  tempArrayOne = mid - left + 1;
     int  tempArrayTwo = right - mid;
@@ -179,7 +250,7 @@ void mergeSort(vector<population>& Births, int begin, int end){
         cout << endl;
     }
     cout << Births.size();
-    mergeSort(Births,0,17);
+    mergeSort(Births,0,Births.size()-1);
     cout << endl <<"Sorted with Mergesort by Births:"<< endl;
     for (const auto& result : Births)
     {
@@ -187,5 +258,9 @@ void mergeSort(vector<population>& Births, int begin, int end){
         cout << ": "<<result.count;
         cout << endl;
     }
+    int val = 887178;
+    cout << "Searching for Value: "<< val;
+    cout << endl;
+    cout << Births[BinaryInterpolationSearch(val,Births)].region;
 
 }
