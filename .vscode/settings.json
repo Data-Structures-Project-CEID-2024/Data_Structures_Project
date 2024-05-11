@@ -1,6 +1,11 @@
 {
     "files.associations": {
+<<<<<<< HEAD
         "cmath": "cpp",
         "iostream": "cpp"
+=======
+        "iostream": "cpp",
+        "ostream": "cpp"
+>>>>>>> 05f6f7255fed058c9108baf5e60f678dee20b775
     }
 }
