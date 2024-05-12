@@ -17,7 +17,7 @@ Search::Search(vector<population> v)
         cin >> b2;
 
         //Hardcoded range change if needed to be variable for user input:
-        b1 = 432085;
+        b1 = 432084;
         b2 = 859365;
 
     }
@@ -30,12 +30,14 @@ Search::Search(vector<population> v)
 
 int Search::LinearSearch( int start, int end, int x)
 {
-    for (int i = 0 + start; i <= 3 + end; i++)
+    int i;
+    for ( i = 0 + start; i <= 3 + end && array[i].count <= x; i++)
     {
         if (array[i].count == x)
             return i;
+
     }
-    return (-1);
+    return (-i);
 }
 
 void Search::rangeParse()
@@ -54,12 +56,12 @@ void Search::rangeParse()
     }
 }
 
-int Search::BinaryInterpolationSearch(int x) //Adjust to return correct estimated index if key not found - YANE -> PRINTF
+int Search::BinaryInterpolationSearch(int x)
 {
     int next; int index;
 
     int size = array.size();
-    int left = 1;
+    int left = 0;
     int right = size - 1;
 
     do
@@ -71,10 +73,11 @@ int Search::BinaryInterpolationSearch(int x) //Adjust to return correct estimate
         // when the x was the item in the most right part !
         next    = int(size * ((x - array[left].count ) / (array[right].count - array[left].count))) + left - 1 ;
 
-        if (size <= 3) {
-            findIndex = LinearSearch(left, right, x);
-            return (LinearSearch(left, right, x));
+        if (size <= 3){
+            findIndex = LinearSearch(left,right,x);
+            return(LinearSearch(left,right,x));
         }
+
         if (x > array[next].count)
         {
             while( x > array[next + index * sqrt(size) - 1].count)
@@ -93,8 +96,7 @@ int Search::BinaryInterpolationSearch(int x) //Adjust to return correct estimate
         }
 
     }while(x != array[next].count);
-    findIndex = -next;
-    return (-next);
+    return (next);
 
 }
 
