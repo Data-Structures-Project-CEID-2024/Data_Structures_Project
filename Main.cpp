@@ -47,24 +47,10 @@ int main() {
 //        cout << search_Births.b1 << " is not element of the Array\n";
 //    }
 
-    cout << "---- InterpolationSearch:Births ----\n";
-    Search search_Births = Search(input.birthsbyRegion);
-    input.printArray(search_Births.array);
-    search_Births.InterpolationSearch(search_Births.b1);
-    search_Births.rangeParse();
-    input.printArray(search_Births.rangeArray);
-    if (search_Births.findIndex >= 0)
-        cout << "Element: " << search_Births.b1 << " was found in index: " << search_Births.findIndex << " Element == Array[index]: "
-             << search_Births.b1 << " == " << search_Births.array[search_Births.findIndex].count << " Region: "
-             << search_Births.array[search_Births.findIndex].region << "\n";
-    else {
-        cout << search_Births.b1 << " is not element of the Array\n";
-    }
-
-//    cout << "---- BinaryInterpolationSearch:Births ----\n";
+//    cout << "---- InterpolationSearch:Births ----\n";
 //    Search search_Births = Search(input.birthsbyRegion);
 //    input.printArray(search_Births.array);
-//    search_Births.BinaryInterpolationSearch(search_Births.b1);
+//    search_Births.InterpolationSearch(search_Births.b1);
 //    search_Births.rangeParse();
 //    input.printArray(search_Births.rangeArray);
 //    if (search_Births.findIndex >= 0)
@@ -74,5 +60,19 @@ int main() {
 //    else {
 //        cout << search_Births.b1 << " is not element of the Array\n";
 //    }
+
+    cout << "---- BinaryInterpolationSearch:Births ----\n";
+    Search search_Births = Search(input.birthsbyRegion);
+    input.printArray(search_Births.array);
+    search_Births.BinaryInterpolationSearch(search_Births.b1);
+    search_Births.rangeParse();
+    input.printArray(search_Births.rangeArray);
+    if (search_Births.findIndex >= 0)
+        cout << "Element: " << search_Births.b1 << " was found in index: " << search_Births.findIndex << " Element == Array[index]: "
+             << search_Births.b1 << " == " << search_Births.array[search_Births.findIndex].count << " Region: "
+             << search_Births.array[search_Births.findIndex].region << "\n";
+    else {
+        cout << search_Births.b1 << " is not element of the Array\n";
+    }
 
 }

@@ -17,7 +17,7 @@ Search::Search(vector<population> v)
         cin >> b2;
 
         //Hardcoded range change if needed to be variable for user input:
-        b1 = 432084;
+        b1 = 432085;
         b2 = 859365;
 
     }
@@ -47,14 +47,14 @@ void Search::rangeParse()
     else{
         i = findIndex;
     }
-    cout << "\n" << "Find index is: " << i << "\n";
+    cout << "\n" << "Result index is: " << i << "\n";
     while(array[i].count <= b2){
         rangeArray.push_back(array[i]);
         i++;
     }
 }
 
-int Search::BinaryInterpolationSearch(int x)
+int Search::BinaryInterpolationSearch(int x) //Adjust to return correct estimated index if key not found - YANE -> PRINTF
 {
     int next; int index;
 
@@ -71,9 +71,10 @@ int Search::BinaryInterpolationSearch(int x)
         // when the x was the item in the most right part !
         next    = int(size * ((x - array[left].count ) / (array[right].count - array[left].count))) + left - 1 ;
 
-        if (size <= 3)
-            return(LinearSearch(left,right,x));
-
+        if (size <= 3) {
+            findIndex = LinearSearch(left, right, x);
+            return (LinearSearch(left, right, x));
+        }
         if (x > array[next].count)
         {
             while( x > array[next + index * sqrt(size) - 1].count)
@@ -92,20 +93,21 @@ int Search::BinaryInterpolationSearch(int x)
         }
 
     }while(x != array[next].count);
-    return (next);
+    findIndex = -next;
+    return (-next);
 
 }
 
 int Search::InterpolationSearch(int key){
     int low = 0;
     int high = array.size() - 1;
-    int closestIndex = -1;
+    int closestIndex = 1;
     int pos;
 
     while (low <= high && key >= array[low].count && key <= array[high].count) {
         pos = low + (((double)(high - low) / (array[high].count - array[low].count)) * (key - array[low].count));
-
         if (array[pos].count == key) {
+            findIndex = pos;
             return pos;
         } else if (array[pos].count < key) {
             closestIndex = pos+1;
@@ -115,9 +117,8 @@ int Search::InterpolationSearch(int key){
             high = pos - 1;
         }
     }
-
     findIndex = -closestIndex;
-    return findIndex;
+    return -closestIndex;
 }
 
 int Search::BinarySearch(int key){
