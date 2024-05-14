@@ -6,10 +6,13 @@
 #include<vector>
 #include "Struct.h"
 #include <math.h>
+#include <list>
 
 using namespace std;
 
 population Answer[17];
+const int m = 11; //prime number of buckets
+
 
 class Input
 {
@@ -227,7 +230,30 @@ void mergeSort(vector<population>& Births, int begin, int end){
     merge(Births, begin, mid, end);
 }
 
-    int main()
+void insertElement(population p, list<population>* buckets){
+
+    
+    int sum=0;
+    for(char c : p.region) {
+        sum += static_cast<int>(c); // Convert char to ASCII value and add to sum
+    }
+
+    int index = sum%m;
+    buckets[index].push_back(p);
+  //cout <<"Result: " << buckets[index].front().region << endl;
+
+}
+
+void deleteElement(){
+
+}
+void modifyElement(){
+
+}
+
+
+
+int main()
 {
     Input input = Input();
     vector<population> results = input.deathsNbirthsbyRegion();
@@ -252,18 +278,38 @@ void mergeSort(vector<population>& Births, int begin, int end){
         
     cout << endl;
     }
-    cout << Births.size();
+    //cout << Births.size();
     mergeSort(Births,0,Births.size()-1);
-    cout << endl <<"Sorted with Mergesort by Births:"<< endl;
+    // cout << endl <<"Sorted with Mergesort by Births:"<< endl;
+    // for (const auto& result : Births)
+    // {
+    //     cout << result.region;
+    //     cout << ": "<<result.count;
+    //     cout << endl;
+    // }
+    //int val = 887178;
+    //cout << "Searching for Value: "<< val;
+    //cout << Births[BinaryInterpolationSearch(val,Births)].region;
+
+
+    //  //prime number of buckets
+    
+    list<population> buckets[m];
+
+    for (int i = 0; i < m; ++i) {
+        buckets[i] = list<population>();
+    }
     for (const auto& result : Births)
     {
-        cout << result.region;
-        cout << ": "<<result.count;
-        cout << endl;
+        insertElement(result, buckets);
     }
-    int val = 887178;
-    cout << "Searching for Value: "<< val;
-    cout << endl;
-    cout << Births[BinaryInterpolationSearch(val,Births)].region;
-
-}
+    
+    
+    for (int i=0; i <m; i++){
+         cout << (buckets[i]).size() << endl;
+        // for (const auto& item : buckets[i]) {
+        //     cout << item.region << " "; // Assuming 'region' is a member of population struct
+        // }
+        //     cout << endl;
+    }
+}   
