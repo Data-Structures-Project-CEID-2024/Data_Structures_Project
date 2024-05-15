@@ -108,20 +108,41 @@ void Input::printArray(vector<population> Array)
 
     cout << "\n";
 }
+//int partition(vector<population>& Births, int left, int right) {
+//
+//    int pivotValue = Births[left].count; // to aristerotero stoixeiokathe sub-array ws pivot
+//
+//    int storeIndex = left + 1;
+//
+//    // Partitioning gyrw apo to pivot
+//    for (int i = left + 1; i <= right; i++) {
+//        if (Births[i].count < pivotValue) {
+//            swap(Births[i], Births[storeIndex]);
+//            storeIndex++; //sto telos kserw mesw tou storeIndex poses allages exw kanei ara h thesh tou pivot sto final array einai sth thesh ish me ton arithmo twn allagwn
+//        }
+//    }
+//
+//    swap(Births[left], Births[storeIndex - 1]);  // sto telos kathe partitioning vazoume to pivot sth thesh tou
+//
+//    return storeIndex - 1;
+//}
+
 int partition(vector<population>& Births, int left, int right) {
 
-    int pivotValue = Births[left].count; // to aristerotero stoixeiokathe sub-array ws pivot
+    int pivotIndex = left + rand() % (right - left + 1);
+    int pivotValue = Births[pivotIndex].count;
+
+    // Move the pivot to the beginning
+    swap(Births[left], Births[pivotIndex]);
 
     int storeIndex = left + 1;
 
-    // Partitioning gyrw apo to pivot
     for (int i = left + 1; i <= right; i++) {
         if (Births[i].count < pivotValue) {
             swap(Births[i], Births[storeIndex]);
-            storeIndex++; //sto telos kserw mesw tou storeIndex poses allages exw kanei ara h thesh tou pivot sto final array einai sth thesh ish me ton arithmo twn allagwn
+            storeIndex++;
         }
     }
-
     swap(Births[left], Births[storeIndex - 1]);  // sto telos kathe partitioning vazoume to pivot sth thesh tou
 
     return storeIndex - 1;
