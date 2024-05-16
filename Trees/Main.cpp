@@ -20,6 +20,9 @@ int main()
         bst.insert(root ,input.input[i]);
     }
 
-    bst.InOrder(root);
+    Node* find = bst.Search(root,"Waikato region");
+    bst.printSelect(find, 2009);
+    bst.editSelect(find, 2009, 5);
+//    bst.InOrder(root);
 
 }
