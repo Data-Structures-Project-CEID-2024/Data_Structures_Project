@@ -79,6 +79,9 @@ void Input::deathsNbirthsbyRegion()
         int count_deaths = 0;           
         for (int i = region_id + 18; i < (int)input.size();  i+= 36)
         {
+            if(input[region_id].region == "Waikato region"){
+                cout <<"Deaths to add: " << input[i].count << "\n";
+            }
             count_deaths += input[i].count;
         }
         population byRegion_deaths;
