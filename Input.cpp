@@ -230,7 +230,7 @@ void mergeSort(vector<population>& Births, int begin, int end){
     merge(Births, begin, mid, end);
 }
 
-void insertElement(population p, list<population>* buckets){
+void insertElement(population p, list<vector<population>>* buckets){
 
     
     int sum=0;
@@ -239,11 +239,29 @@ void insertElement(population p, list<population>* buckets){
     }
 
     int index = sum%m;
-    buckets[index].push_back(p);
+    bool found=false;
+    //bucket[index] -> chain
+    for (auto& RegionVector : buckets[index]){
+        //linear search to find the vector with the right region
+        if (RegionVector[0].region==p.region){
+                RegionVector.push_back(p);
+                found = true;
+        }
+    }
+    //if not found create a new vector with only the population struct and push it back to the chain
+    if (found==false){
+            vector <population> temp;
+            temp.push_back(p); 
+            buckets[index].push_back(temp);
+    }
+
+   // buckets[index].push_back(p);
   //cout <<"Result: " << buckets[index].front().region << endl;
+  
+}
+void searchElement(){
 
 }
-
 void deleteElement(){
 
 }
@@ -294,12 +312,12 @@ int main()
 
     //  //prime number of buckets
     
-    list<population> buckets[m];
-
-    for (int i = 0; i < m; ++i) {
-        buckets[i] = list<population>();
-    }
-    for (const auto& result : Births)
+    list< vector <population>> buckets[m];
+    //initialisation
+    // for (int i = 0; i < m; ++i) {
+    //     buckets[i] = list< vector <population>>();
+    // }
+    for (const auto& result : input)
     {
         insertElement(result, buckets);
     }
