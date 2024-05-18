@@ -147,76 +147,33 @@ void Sort::CountingSort(vector<population>& input){
     array = out;
 }
 
+int Sort::partition(vector<population>& Births, int left, int right){
 
-// void Sort::MakeQuick(int left, int mid, int right) 
-// {
-//     int  tempLeftArr = mid - left + 1;
-//     int  tempRightArr = right - mid;
-//     vector<population> LeftArray;
-//     vector<population> RightArray;
+    int pivotIndex = left + rand() % (right - left + 1);
+    int pivotValue = Births[pivotIndex].count;
 
-//     int tempIndexOne = 0;
-//     int tempIndexTwo = 0;
-//     int indexOfMergedArray = left;
+    // Move the pivot to the beginning
+    swap(Births[left], Births[pivotIndex]);
 
-//     while (tempIndexOne < tempLeftArr && tempIndexTwo < tempRightArr) 
-//     {
-//         if (LeftArray[tempIndexOne].count <= RightArray[tempIndexTwo].count) 
-//         {
-//             array[indexOfMergedArray] = LeftArray[tempIndexOne];
-//             tempIndexOne++;
-//         } else {
-//             array[indexOfMergedArray] = RightArray[tempIndexTwo];
-//             tempIndexTwo++;
-//         }
-//         indexOfMergedArray++;
-//     }
+    int storeIndex = left + 1;
 
-//     while (tempIndexOne < tempLeftArr) 
-//     {
-//         array[indexOfMergedArray] = LeftArray[tempIndexOne];
-//         tempIndexOne++;
-//         indexOfMergedArray++;
-//     }
+    for (int i = left + 1; i <= right; i++) {
+        if (Births[i].count < pivotValue) {
+            swap(Births[i], Births[storeIndex]);
+            storeIndex++;
+        }
+    }
+    swap(Births[left], Births[storeIndex - 1]);  // sto telos kathe partitioning vazoume to pivot sth thesh tou
 
-//     while (tempIndexTwo < tempRightArr) 
-//     {
-//         array[indexOfMergedArray] = RightArray[tempIndexTwo];
-//         tempIndexTwo++;
-//         indexOfMergedArray++;
-//     }
+    return storeIndex - 1;
+}
 
+void Sort::QuickSort( int begin, int end) {
+    if (begin < end) {
+        int pivotIndex = partition(array, begin, end);
 
-// }
-
-// void Sort::quickSort(int begin, int end) 
-// {
-//     if (begin < end) 
-//     {
-//         int pivotIndex = begin;
-//         int pivot = array[pivotIndex].count;
-//         int middle = (begin+end)/2;
-//         int i = begin + 1;
-//         int j = end;
-
-//         while (i <= j) {
-//             while (i <= j && array[i].count <= pivot) 
-//             {
-//                 i++;
-//             }
-//             while (j >= i && array[j].count > pivot) 
-//             {
-//                 j--;
-//             }
-//             if (i < j) {
-//                 swap(array[i], array[j]);
-//             }
-//         }
-//         swap(array[pivotIndex], array[j]);
-//         pivotIndex = j;
-
-//         quickSort( begin, pivotIndex - 1);
-//         quickSort( pivotIndex + 1, end);
-//         MakeQuick(begin, middle, end);
-//     }
-// }
+        //sort ta aristera(mikrotera tou pivot) kai deksia(megalytera tou pivot) arrays
+        QuickSort(begin, pivotIndex - 1);
+        QuickSort(pivotIndex + 1, end);
+    }
+}

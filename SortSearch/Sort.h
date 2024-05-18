@@ -23,8 +23,8 @@ class Sort{
             void CountingSort(std::vector<population>& array);
 
             // Quick Sort
-            // void Sort::quickSort(int begin, int end); 
-            // void Sort::MakeQuick(int left, int mid, int right); 
+            void QuickSort(int begin, int end);
+            int partition(std::vector<population>& Births, int left, int right);
 };
 
 #endif

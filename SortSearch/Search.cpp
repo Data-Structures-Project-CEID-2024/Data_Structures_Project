@@ -18,7 +18,7 @@ Search::Search(vector<population> v)
 
         //Hardcoded range change if needed to be variable for user input:
         b1 = 432084;
-        b2 = 859365;
+        b2 = 5;
 
     }
     catch (runtime_error& e)
@@ -43,6 +43,10 @@ int Search::LinearSearch( int start, int end, int x)
 void Search::rangeParse()
 {
     int i;
+    if( b2 < b1 ){
+        cout << "\nRange endpoints falsely defined.\nExpected formatting: b2 >= b1\n";
+        exit(0);
+    }
     if ( findIndex<0){
         i = -findIndex;
     }
@@ -152,5 +156,114 @@ int Search::BinarySearch(int key){
         findIndex = -mid;
         return findIndex;
     }
+}
+
+int Search::BinarySearch_Span(vector <population> array, int l, int r, int x, int step){
+    int m = 0;
+    if (l < 0)
+        l = 0;
+
+    if (r > (int)array.size())
+        r = array.size() - 1;
+
+    while (l <= r) {
+
+        if (step != 1)
+        {
+            m = floor((r - l + 1) / (2*step)) + l;
+
+        }
+        else
+            m = floor((r + l - 1) / 2);
+        // Check if x is present at mid
+        if (x > array[m].count && x < array[m+step].count)
+        {
+            l =m;
+            r = m+step;
+            step = sqrt(step);
+            m = m + step;
+
+        }
+        else if (x > array[m - step].count && x < array[m].count)
+        {
+            l = m - step;
+            r = m;
+            step = sqrt(step);
+            m = m - step;
+
+        }
+            // If x greater, ignore left half
+        else if (x > array[m].count)
+        {
+            l = m + 1;
+
+        }
+            // If x is smaller, ignore right half
+        else if (x < array[m].count)
+        {
+            r = m - 1;
+        }
+        else if (x == array[m].count )
+            return m;
+
+        if (step == 1)
+            return -1;
+
+
+    }
+    return -m;
+}
+
+int Search::Exponential_BinaryInterpolationSearch(int x){
+    int next; int index;
+    int size = array.size();
+    int left = 1;
+    int right = size - 1;
+
+    do
+    {
+        index   = 1;
+        size    = right - left + 1;
+
+        next    = int(size * ((x - array[left].count ) / (array[right].count - array[left].count))) + left - 1 ;
+
+
+        if ((x >= array[next + pow(2,index - 1)*sqrt(size)].count)&&(x <= array[next + pow(2,index)*sqrt(size)].count)) // if (array[next +2^i<x<array[nex+2^i+1]])
+        {
+            int step = ceil(sqrt(size));
+            int index = BinarySearch_Span(array, left, right, x, step);
+            if (index > 0){
+                findIndex = index;
+                return(index);
+            }
+
+            else{
+                findIndex = (LinearSearch(abs(index), right, x));
+                return (LinearSearch(abs(index), right, x));
+            }
+
+        }
+
+        if (x > array[next].count)
+        {
+            while( next + pow(2, index)* sqrt(size) - 1 < size  && x > array[next + pow(2, index)* sqrt(size) - 1].count )
+                index = index + 1;
+
+            right = ceil (next + (pow(2, index) - 1) * sqrt(size));
+            left = ceil (next + (pow(2, index - 1) - 1 )* sqrt(size));
+        }
+        else if ( x < array[next].count)
+        {
+            while( x < array[next - pow(2, index - 1)* sqrt(size) + 1].count)
+                index = index + 1;
+
+            right = ceil (next -  (pow(2, index - 1) - 1) * sqrt(size));
+            left = ceil (next - (pow(2, index) - 1) * sqrt(size));
+        }
+
+    }while(x!=array[next].count);
+
+    findIndex = next;
+    return (next);
 }
 

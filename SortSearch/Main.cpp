@@ -16,10 +16,10 @@ int main() {
     sort_Births_Merge.mergeSort(0, sort_Births_Merge.array.size() - 1);
     input.printArray(sort_Births_Merge.array);
 
-    // cout << "---- Quick Sort:Births ----\n";
-    // Sort sort_Births_Quick =  Sort(input.birthsbyRegion);
-    // sort_Births_Quick.mergeSort(0, sort_Births_Quick.array.size() - 1);
-    // input.printArray(sort_Births_Quick.array);
+     cout << "---- Quick Sort:Births ----\n";
+     Sort sort_Births_Quick =  Sort(input.birthsbyRegion);
+     sort_Births_Quick.mergeSort(0, sort_Births_Quick.array.size() - 1);
+     input.printArray(sort_Births_Quick.array);
 
     cout << "---- Heap Sort:Deaths ----\n";
     Sort sort_Deaths_Heap = Sort(input.deathsbyRegion);
@@ -61,10 +61,24 @@ int main() {
 //        cout << search_Births.b1 << " is not element of the Array\n";
 //    }
 
-    cout << "---- BinaryInterpolationSearch:Births ----\n";
+//    cout << "---- BinaryInterpolationSearch:Births ----\n";
+//    Search search_Births = Search(input.birthsbyRegion);
+//    input.printArray(search_Births.array);
+//    search_Births.BinaryInterpolationSearch(search_Births.b1);
+//    search_Births.rangeParse();
+//    input.printArray(search_Births.rangeArray);
+//    if (search_Births.findIndex >= 0)
+//        cout << "Element: " << search_Births.b1 << " was found in index: " << search_Births.findIndex << " Element == Array[index]: "
+//             << search_Births.b1 << " == " << search_Births.array[search_Births.findIndex].count << " Region: "
+//             << search_Births.array[search_Births.findIndex].region << "\n";
+//    else {
+//        cout << search_Births.b1 << " is not element of the Array\n";
+//    }
+
+    cout << "---- BinaryInterpolationSearch [EXTENDED]:Births ----\n";
     Search search_Births = Search(input.birthsbyRegion);
     input.printArray(search_Births.array);
-    search_Births.BinaryInterpolationSearch(search_Births.b1);
+    search_Births.findIndex = search_Births.Exponential_BinaryInterpolationSearch(search_Births.b1);
     search_Births.rangeParse();
     input.printArray(search_Births.rangeArray);
     if (search_Births.findIndex >= 0)
