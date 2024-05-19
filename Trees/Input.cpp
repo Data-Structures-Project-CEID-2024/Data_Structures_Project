@@ -27,7 +27,7 @@ Input::Input()
             // cout << p.period << " ";
 
             getline(ss,buffer, ',');
-            p.alive = (buffer.compare("Births"));
+            p.alive = (buffer == "Births");
             // cout << p.alive << " ";
 
             getline(ss,buffer, ',');

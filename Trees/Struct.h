@@ -13,11 +13,13 @@ typedef struct population
 }population;
 
 
-typedef struct Node 
+typedef struct Node
 {
+    int height;
     std::string key;
     std::vector<population> node_data_births;
     std::vector<population> node_data_deaths;
+
     struct Node* node_parent;
     struct Node* left_child;
     struct Node* right_child;
