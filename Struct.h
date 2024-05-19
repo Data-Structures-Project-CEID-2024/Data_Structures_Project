@@ -9,5 +9,17 @@ typedef struct population
     int count;
 }population;
 
+typedef struct Node 
+{
+    int height;
+    std::string key;
+    std::vector<population> node_data_births;
+    std::vector<population> node_data_deaths;
+
+    struct Node* node_parent;
+    struct Node* left_child;
+    struct Node* right_child;
+} Node;
+
 
 #endif
