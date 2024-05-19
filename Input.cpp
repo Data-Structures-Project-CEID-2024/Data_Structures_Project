@@ -70,38 +70,47 @@ class Input
         // by region
         vector<population> deathsNbirthsbyRegion()
         {
-            vector<population> deathsNbirthsbyRegion;
+            vector<population> entries;
 
-            int count_births = 0;
-            for (int region_id = 0; region_id < 17; region_id++) //2022-2005=17 years of data (for each year)
-            {
-                for (int i = region_id; i < (int)input.size();  i+= 36) //36 are the rows that each years takes (for each region)
-                {
-                    count_births += input[i].count;
-                    // cout << input[i].count << "\t";
-                }    
-                population byRegion_births;
-                byRegion_births.alive = true;
-                byRegion_births.region = input[region_id].region;
-                byRegion_births.count = count_births;
-
-                deathsNbirthsbyRegion.push_back(byRegion_births);
-
-                int count_deaths = 0;           
-                for (int i = region_id + 18; i < (int)input.size();  i+= 36)
-                {
-                    count_deaths += input[i].count;
-                }
-                population byRegion_deaths;
-                byRegion_deaths.alive = false;
-                byRegion_deaths.region = input[region_id].region;
-                byRegion_deaths.count = count_deaths;
-
-                deathsNbirthsbyRegion.push_back(byRegion_deaths);
-                cout << "\n";
+            //int count_births = 0;
+            for (int i=0;i<(int)input.size();i++){
+                population entry;
+                entry.alive=input[i].alive;
+                entry.count=input[i].count;
+                entry.period=input[i].period;
+                entry.region=input[i].region;
+                entries.push_back(entry);
             }
+            //old code for total diths and births by region!
+            // for (int region_id = 0; region_id < 17; region_id++) //2022-2005=17 years of data (for each year)
+            // {
+            //     for (int i = region_id; i < (int)input.size();  i+= 36) //36 are the rows that each years takes (for each region)
+            //     {
+            //         count_births += input[i].count;
+            //         // cout << input[i].count << "\t";
+            //     }    
+            //     population byRegion_births;
+            //     byRegion_births.alive = true;
+            //     byRegion_births.region = input[region_id].region;
+            //     byRegion_births.count = count_births;
 
-            return (deathsNbirthsbyRegion);
+            //     deathsNbirthsbyRegion.push_back(byRegion_births);
+
+            //     int count_deaths = 0;           
+            //     for (int i = region_id + 18; i < (int)input.size();  i+= 36)
+            //     {
+            //         count_deaths += input[i].count;
+            //     }
+            //     population byRegion_deaths;
+            //     byRegion_deaths.alive = false;
+            //     byRegion_deaths.region = input[region_id].region;
+            //     byRegion_deaths.count = count_deaths;
+
+            //     deathsNbirthsbyRegion.push_back(byRegion_deaths);
+            //     cout << "\n";
+            // }
+            // return deathsNbirthsbyRegion 
+            return (entries);
         }
 };
 
@@ -230,7 +239,7 @@ void mergeSort(vector<population>& Births, int begin, int end){
     merge(Births, begin, mid, end);
 }
 
-void insertElement(population p, list<population>* buckets){
+void insertElement(population p, list<vector<population>>* buckets){
 
     
     int sum=0;
@@ -239,11 +248,29 @@ void insertElement(population p, list<population>* buckets){
     }
 
     int index = sum%m;
-    buckets[index].push_back(p);
+    bool found=false;
+    //bucket[index] -> chain
+    for (auto& RegionVector : buckets[index]){
+        //linear search to find the vector with the right region
+        if (RegionVector[0].region==p.region){
+                RegionVector.push_back(p);
+                found = true;
+        }
+    }
+    //if not found create a new vector with only the population struct and push it back to the chain
+    if (found==false){
+            vector <population> temp;
+            temp.push_back(p); 
+            buckets[index].push_back(temp);
+    }
+
+   // buckets[index].push_back(p);
   //cout <<"Result: " << buckets[index].front().region << endl;
+  
+}
+void searchElement(){
 
 }
-
 void deleteElement(){
 
 }
@@ -251,65 +278,31 @@ void modifyElement(){
 
 }
 
-
-
 int main()
 {
     Input input = Input();
     vector<population> results = input.deathsNbirthsbyRegion();
-
-    vector<population> Births;
-    cout << "Regions" << endl;
-    int j=0;
+    
+     list< vector <population>> buckets[m];
     for (const auto& result : results)
     {
-        j++;
-        cout << result.region;
-        
-        if (result.alive) {
-            cout << " Births: " << result.count;
-            Births.push_back(result);
-
-        }
-        else{
-            cout <<" Deaths: " << result.count;
-            
-            }
-        
-    cout << endl;
-    }
-    //cout << Births.size();
-    mergeSort(Births,0,Births.size()-1);
-    // cout << endl <<"Sorted with Mergesort by Births:"<< endl;
-    // for (const auto& result : Births)
-    // {
-    //     cout << result.region;
-    //     cout << ": "<<result.count;
-    //     cout << endl;
-    // }
-    //int val = 887178;
-    //cout << "Searching for Value: "<< val;
-    //cout << Births[BinaryInterpolationSearch(val,Births)].region;
-
-
-    //  //prime number of buckets
-    
-    list<population> buckets[m];
-
-    for (int i = 0; i < m; ++i) {
-        buckets[i] = list<population>();
-    }
-    for (const auto& result : Births)
-    {
+        cout << "Region: " << result.region <<  "\t\tPeriod:  "  << result.period;
+        if(result.alive==true) cout << "\tBirths: " << result.count << endl;
+        else cout << " \tDeaths: "<<  result.count << endl;
         insertElement(result, buckets);
     }
     
     
     for (int i=0; i <m; i++){
-         cout << (buckets[i]).size() << endl;
+        cout <<"Vectors in chain" << (buckets[i]).size() << endl;
+        list<vector<population>> temp = buckets[i];
+        cout << "Size of each Vector: " << endl;
+        for (const auto& vec : temp){
+            cout <<"Region: " << vec[0].region << " Size: " <<vec.size() << endl;
+        }
         // for (const auto& item : buckets[i]) {
         //     cout << item.region << " "; // Assuming 'region' is a member of population struct
         // }
         //     cout << endl;
     }
-}   
+} 
