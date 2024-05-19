@@ -12,6 +12,20 @@ int main()
     int size = input.input.size();
 
 
+    BST* period = new PRD();
+    Node* rootPeriod = period->insert(NULL, input.input[0]);
+
+    for (int i = 1; i < size; i++)
+    {
+        rootPeriod = period->insert(rootPeriod ,input.input[i]);
+    }
+
+    Node* lastVisitedPeriod = nullptr;
+    period->InOrder(rootPeriod, lastVisitedPeriod);
+    cout << endl;
+    period->printLevelOrder(rootPeriod);
+
+
     BST* bst = new REG();
     Node* root = bst->insert(NULL, input.input[0]);
 

@@ -15,17 +15,16 @@ public:
     Node* right_rotation(Node* node);
     Node* left_right_rotation(Node* node);
     Node* right_left_rotation(Node* node);
-
+    void InOrder( Node* parent, Node*& lastVisited);
+    void printLevelOrder(Node* root);
 
     virtual Node* newNode(population data) = 0;
     virtual Node* insert(Node* parent, population key) = 0;
-    virtual Node* search(Node* parent, std::string key) = 0;
-    virtual Node* deleteNode(Node* parent, std::string key) = 0;
-    virtual void editSelect(Node* node, int year, int input) = 0;
-
-    virtual void InOrder( Node* parent, Node*& lastVisited) = 0;
-    virtual void printArray(std::vector<population> Array) = 0;
-    virtual void printLevelOrder(Node* root) = 0;
+//    virtual Node* search(Node* parent, std::string key) = 0;
+//    virtual Node* deleteNode(Node* parent, std::string key) = 0;
+//    virtual void editSelect(Node* node, int year, int input) = 0;
+//
+//    virtual void printArray(std::vector<population> Array) = 0;
 
 };
 
@@ -38,9 +37,7 @@ public:
     Node* deleteNode(Node* parent, std::string key);
     void editSelect(Node* node, int year, int input);
 
-    void InOrder( Node* parent, Node*& lastVisited);
     void printArray(std::vector<population> Array);
-    void printLevelOrder(Node* root);
 
 };
 
@@ -51,11 +48,10 @@ public:
     Node* insert(Node* parent, population key);
     Node* search(Node* parent, int key);
     Node* deleteNode(Node* parent, int key);
-    void editSelect(Node* node, std::string region, int input);
+//    void editSelect(Node* node, std::string region, int input);
 
-    void InOrder( Node* parent, Node*& lastVisited);
-    void printArray(std::vector<population> Array);
-    void printLevelOrder(Node* root);
+//    void printArray(std::vector<population> Array);
+
 
 };
 
