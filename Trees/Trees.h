@@ -17,7 +17,6 @@ public:
     Node* right_left_rotation(Node* node);
     void InOrder( Node* parent, Node*& lastVisited);
 
-
     virtual Node* newNode(population data) = 0;
     virtual Node* insert(Node* parent, population key) = 0;
 //    virtual Node* search(Node* parent, std::string key) = 0;
@@ -43,7 +42,7 @@ public:
 
 };
 
-class PRD: public BST{
+class COUNT: public BST{
 
 public:
     Node* newNode(population data);
@@ -54,8 +53,6 @@ public:
 
 //    void printArray(std::vector<population> Array);
     void printLevelOrder(Node* root);
-
-
 };
 
 

@@ -120,6 +120,11 @@ Node* REG::insert(Node* parent, population key)
         parent->right_child = insert(parent->right_child, key);
     }
 
+     // else if (key.alive == 1)
+    //     parent->node_data_births[key.period - 2005] = key;
+    // else
+    //     parent->node_data_deaths[key.period - 2005] = key;
+
     parent->height = 1 + std::max(height(parent->left_child), height(parent->right_child));
 
     int hb = height_balance(parent);
@@ -223,12 +228,12 @@ void REG::printLevelOrder(Node* root) {
     cout << endl;
 }
 
-//-----------------------------------------------------------------------------------------------------//PRD
+//-----------------------------------------------------------------------------------------------------//COUNT
 
-Node* PRD::newNode(population data){
+Node* COUNT::newNode(population data){
     Node* newNode = new Node;
 
-    newNode->intKey = data.period;
+    newNode->intKey = data.count;
     newNode->node_data_births.resize(18);
     newNode->node_data_deaths.resize(18);
 
@@ -242,16 +247,16 @@ Node* PRD::newNode(population data){
 
 }
 
-Node* PRD::insert(Node* parent, population key)
+Node* COUNT::insert(Node* parent, population key)
 {
     if (parent == NULL)
         return (newNode(key));
 
-    if ( key.period < parent->intKey) // key.period < parent
+    if ( key.count < parent->intKey) // key.period < parent
     {
         parent->left_child = insert(parent->left_child, key);
     }
-    else if ( key.period > parent->intKey  ) // key.period > parent
+    else if ( key.count > parent->intKey  ) // key.period > parent
     {
         parent->right_child = insert(parent->right_child, key);
     }
@@ -261,10 +266,10 @@ Node* PRD::insert(Node* parent, population key)
     int hb = height_balance(parent);
 
 
-    if (hb > 1 && key.period < parent->right_child->intKey)
+    if (hb > 1 && key.count < parent->right_child->intKey)
         parent = right_left_rotation(parent);
 
-    else if (hb < -1 && key.period > parent->left_child->intKey)
+    else if (hb < -1 && key.count > parent->left_child->intKey)
         parent = left_right_rotation(parent);
 
     else if (hb > 1)
@@ -276,7 +281,7 @@ Node* PRD::insert(Node* parent, population key)
     return (parent);
 }
 
-Node* PRD::search(Node* parent, int key){ //Births oriented
+Node* COUNT::search(Node* parent, int key){ //Births oriented
     cout << "\nSearching...\n";
 
     while(parent != nullptr)
@@ -301,7 +306,7 @@ Node* PRD::search(Node* parent, int key){ //Births oriented
 //
 //}
 
-Node* PRD::deleteNode(Node* parent, int key)
+Node* COUNT::deleteNode(Node* parent, int key)
 {
     Node* deletionNode = search(parent, key);
 
@@ -325,7 +330,7 @@ Node* PRD::deleteNode(Node* parent, int key)
 //
 //}
 
-void PRD::printLevelOrder(Node* root) {
+void COUNT::printLevelOrder(Node* root) {
     if (root == nullptr) return;
 
     queue<Node*> q;

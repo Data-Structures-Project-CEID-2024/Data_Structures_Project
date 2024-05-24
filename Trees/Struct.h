@@ -21,6 +21,18 @@ typedef struct Node
     std::vector<population> node_data_births;
     std::vector<population> node_data_deaths;
 
+    /*
+     * Will be replaced with:
+     *
+     * For REG:
+     * Period indexed contentAVL
+     * contentNode data: Counts
+     *
+     * For COUNT:
+     * Region indexed contentAVL
+     * contentNode data: Periods
+     */
+
     struct Node* node_parent;
     struct Node* left_child;
     struct Node* right_child;

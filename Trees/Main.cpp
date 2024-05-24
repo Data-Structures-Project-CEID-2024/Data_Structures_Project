@@ -1,6 +1,7 @@
 #include "Input.h"
 #include "Struct.h"
 #include "Trees.h"
+#include "Menu.h"
 
 using namespace std;
 
@@ -12,18 +13,18 @@ int main()
     int size = input.input.size();
 
 
-    BST* period = new PRD();
-    Node* rootPeriod = period->insert(NULL, input.input[0]);
+    BST* period = new COUNT();
+    Node* root0 = period->insert(NULL, input.input[0]);
 
     for (int i = 1; i < size; i++)
     {
-        rootPeriod = period->insert(rootPeriod ,input.input[i]);
+        root0 = period->insert(root0 ,input.input[i]);
     }
 
-    Node* lastVisitedPeriod = nullptr;
-    period->InOrder(rootPeriod, lastVisitedPeriod);
+    Node* lastVisited0 = nullptr;
+    period->InOrder(root0, lastVisited0);
     cout << endl;
-    period->printLevelOrder(rootPeriod);
+    period->printLevelOrder(root0);
 
 
     BST* bst = new REG();
@@ -38,6 +39,7 @@ int main()
     bst->InOrder(root, lastVisited);
     cout << endl;
     bst->printLevelOrder(root);
+
 
 
     // // AVL Insertion Test
