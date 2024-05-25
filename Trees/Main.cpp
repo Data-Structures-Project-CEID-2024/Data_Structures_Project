@@ -10,35 +10,40 @@ int main()
     Input input = Input();
     // input.printArray(input.input);
 
-    int size = input.input.size();
+//    int size = input.input.size();
 
 
-    NUM* counts = new NUM();
+    COUNT* counts = new COUNT();
+    REG* reg = new REG();
     Node* root0 = counts->insert(NULL, input.input[0]);
-    for (int i = 1; i < size; i++)
+    for (int i = 1; i < 20 /* temporary */; i++)
     {
         if(input.input[i].alive == 1){
             root0 = counts->insert(root0 ,input.input[i]);
         }
     }
 
-    Node* lastVisited0 = nullptr;
-    counts->InOrder(root0, lastVisited0);
+//    Node* lastVisited0 = nullptr;
+//    counts->InOrder(root0, lastVisited0);
     cout << endl;
     counts->printLevelOrder(root0);
 
-    REG* bst = new REG();
-    Node* root = bst->insert(NULL, input.input[0]);
+    Node* cptr = counts->search(root0, 2067);
+    cout << "\nData is: " << cptr->birth_data->data << "\n";
+    reg->printLevelOrder(cptr->birth_data);
 
-    for (int i = 1; i < size; i++)
-    {
-        root = bst->insert(root ,input.input[i]);
-    }
-
-    Node* lastVisited = nullptr;
-    bst->InOrder(root, lastVisited);
-    cout << endl;
-    bst->printLevelOrder(root);
+//    REG* bst = new REG();
+//    Node* root = bst->insert(NULL, input.input[0]);
+//
+//    for (int i = 1; i < size; i++)
+//    {
+//        root = bst->insert(root ,input.input[i]);
+//    }
+//
+//    Node* lastVisited = nullptr;
+//    bst->InOrder(root, lastVisited);
+//    cout << endl;
+//    bst->printLevelOrder(root);
 
 
 

@@ -2,8 +2,8 @@ Period,Birth_Death,Region,Count
 2005,Births,Northland region,2067
 2005,Births,Auckland region,20745
 2005,Births,Waikato region,5667
-2005,Births,Bay of Plenty region,3771
-2005,Births,Gisborne region,777
+2005,Births,Bay of Plenty region,2067
+2005,Births,Gisborne region,2067
 2005,Births,Hawke's Bay region,2115
 2005,Births,Taranaki region,1410
 2005,Births,Manawatu-Wanganui region,3093

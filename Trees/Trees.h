@@ -32,7 +32,20 @@ public:
 
 };
 
-class NUM: public BST{
+class COUNT: public BST{
+
+public:
+    Node* newNode(population data);
+    Node* insert(Node* parent, population key);
+    Node* search(Node* parent, int key);
+    Node* deleteNode(Node* parent, int key);
+//    void editSelect(Node* node, std::string region, int input);
+
+//    void printArray(std::vector<population> Array);
+    void printLevelOrder(Node* root);
+};
+
+class PRD: public BST{
 
 public:
     Node* newNode(population data);
