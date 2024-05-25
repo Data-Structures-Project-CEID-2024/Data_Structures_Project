@@ -8,7 +8,6 @@
 #include <math.h>
 #include <list>
 #include <queue>
-#include <windows.h>
 
 using namespace std;
 
@@ -23,6 +22,7 @@ class BST{
             Node* newNode = new Node;
 
             newNode->key = data.region;
+            newNode->intKey = data.period;
             newNode->node_data_births.resize(18);
             newNode->node_data_deaths.resize(18);
             
@@ -104,16 +104,21 @@ class BST{
 
         Node* insert(Node* parent, population key)
         {
-            if (parent == NULL)
-                return (newNode(key));
-            
-            if ( key.region.compare(parent->key) < 0 ) // key.region < parent.
+             if (parent == NULL)
             {
+                Node * node = newNode(key);
+                node->node_parent = parent;
+                return (node);
+            }    
+            if ( key.period < parent->intKey ) // key.region < parent.
+            {
+
                 parent->left_child = insert(parent->left_child, key);
             }
-            else if ( key.region.compare(parent->key) > 0 ) // key.region > parent
+            else if ( key.period > parent->intKey ) // key.region > parent
             {
                 parent->right_child = insert(parent->right_child, key);
+                
             }
             // else if (key.alive == 1)
             //     parent->node_data_births[key.period - 2005] = key;
@@ -126,10 +131,10 @@ class BST{
             int hb = height_balance(parent);
 
             
-            if (hb > 1 && key.region.compare(parent->right_child->key) < 0)
+            if (hb > 1 && key.period < parent->right_child->intKey )
                 parent = right_left_rotation(parent);
 
-            else if (hb < -1 && key.region.compare(parent->left_child->key) > 0)
+            else if (hb < -1 && key.period > parent->left_child->intKey)
                 parent = left_right_rotation(parent);
 
             else if (hb > 1)
@@ -142,28 +147,28 @@ class BST{
         }
 
 
-        Node* search(Node* parent, std::string key){ //Births oriented
+        // Node* search(Node* parent, std::string key){ //Births oriented
 
-            cout << "\nSearching...\n";
+        //     cout << "\nSearching...\n";
         
         
-            while(parent != nullptr)
-            {
-                //Entry is at right subtree
-                if(key.compare(parent->key) > 0 ){ // key > parent->key
-                    parent = parent->right_child;
-                }
-                //Entry is at left subtree
-                else if( key.compare(parent->key) < 0 ){ // key < parent->key
-                    parent = parent->left_child;
-                }
-                //Entry found
-                else
-                    return parent;
-            }
-            //Entry not found - returning nullptr
-            return nullptr;
-        }
+        //     while(parent != nullptr)
+        //     {
+        //         //Entry is at right subtree
+        //         if(key > parent-> key) > 0 ){ // key > parent->key
+        //             parent = parent->right_child;
+        //         }
+        //         //Entry is at left subtree
+        //         else if( key.compare(parent->key) < 0 ){ // key < parent->key
+        //             parent = parent->left_child;
+        //         }
+        //         //Entry found
+        //         else
+        //             return parent;
+        //     }
+        //     //Entry not found - returning nullptr
+        //     return nullptr;
+        // }
 
         void editSelect(Node* node, int year, int input){
             int index = year - 2005;
@@ -174,41 +179,41 @@ class BST{
 
 
 
-        void InOrder(Node* parent, Node*& lastVisited)
-        {
-            if (parent == NULL)
-                return;
+        // void InOrder(Node* parent, Node*& lastVisited)
+        // {
+        //     if (parent == NULL)
+        //         return;
 
-            InOrder(parent->left_child, lastVisited);
-            cout << parent->key << "\n";
-            lastVisited = parent;
-            // cout << "--- Node Data Array --- \n";
-            // cout << "Births: \n";
-            // printArray(parent->node_data_births);
-            // cout << "Deaths: \n";
-            // printArray(parent->node_data_deaths);
-            InOrder(parent->right_child, lastVisited);
-        }
+        //     InOrder(parent->left_child, lastVisited);
+        //     cout << parent->key << "\n";
+        //     lastVisited = parent;
+        //     // cout << "--- Node Data Array --- \n";
+        //     // cout << "Births: \n";
+        //     // printArray(parent->node_data_births);
+        //     // cout << "Deaths: \n";
+        //     // printArray(parent->node_data_deaths);
+        //     InOrder(parent->right_child, lastVisited);
+        // }
 
-        Node* deleteNode(Node* parent, std::string key)
-        {
-            Node* deletionNode = search(parent, key);
+        // Node* deleteNode(Node* parent, std::string key)
+        // {
+        //     Node* deletionNode = search(parent, key);
 
-            if (deletionNode == nullptr)
-            {
-                cout << "Node not found\n";
-                return parent;
-            }
-            else
-            {
-                Node* lastVisited = nullptr;
-                InOrder(deletionNode, lastVisited);
-                if (lastVisited != nullptr)
-                    cout << lastVisited->key << "\n";
-            }
+        //     if (deletionNode == nullptr)
+        //     {
+        //         cout << "Node not found\n";
+        //         return parent;
+        //     }
+        //     else
+        //     {
+        //         Node* lastVisited = nullptr;
+        //         InOrder(deletionNode, lastVisited);
+        //         if (lastVisited != nullptr)
+        //             cout << lastVisited->key << "\n";
+        //     }
 
-            return deletionNode;
-        }
+        //     return deletionNode;
+        // }
 
 
         void printArray(vector<population> Array)
@@ -235,7 +240,7 @@ class BST{
                 int nodeCount = q.size();
                 while (nodeCount > 0) {
                     Node* node = q.front();
-                    std::cout << node->key << "\t \t";
+                    std::cout << node->intKey << "\t \t";
                     q.pop();
                     if (node->left_child != nullptr) q.push(node->left_child);
                     if (node->right_child != nullptr) q.push(node->right_child);
@@ -471,7 +476,7 @@ void mergeSort(vector<population>& Births, int begin, int end){
     merge(Births, begin, mid, end);
 }
 
-void insertElement(population p, list<vector<population>>* buckets){
+void insertElement(population p, list<Node*>* buckets, BST& Avl){
 
     
     int sum=0;
@@ -482,18 +487,17 @@ void insertElement(population p, list<vector<population>>* buckets){
     int index = sum%m;
     bool found=false;
     //bucket[index] -> chain
-    for (auto& RegionVector : buckets[index]){
-        //linear search to find the vector with the right region
-        if (RegionVector[0].region==p.region){
-                RegionVector.push_back(p);
+    for (auto& node : buckets[index]){
+        //linear search to find the avl tree with the right region
+        if (node->key == p.region){
+                node = Avl.insert(node, p);
                 found = true;
         }
     }
     //if not found create a new vector with only the population struct and push it back to the chain
     if (found==false){
-            vector <population> temp;
-            temp.push_back(p); 
-            buckets[index].push_back(temp);
+            
+            buckets[index].push_back(Avl.insert(NULL, p));
     }
 
   
@@ -510,26 +514,27 @@ void modifyElement(){
 int main()
 {
     
-    list< vector <population>> buckets[m];
+    list<Node*> buckets[m];
     Input input = Input();
     vector<population> results = input.deathsNbirthsbyRegion();
-    
+    BST AvlTree = BST();
 
     for (const auto& result : results)
     {
         cout << "Region: " << result.region <<  "\t\t\tPeriod:  "  << result.period;
         if(result.alive==true) cout << "\tBirths: " << result.count << endl;
         else cout << " \tDeaths: "<<  result.count << endl;
-        insertElement(result, buckets);
+        insertElement(result, buckets, AvlTree);
     }
     
+   
     cout << endl << endl;
-    
+  
+
     for (int i=0; i <m; i++){
-        cout <<"Vectors in chain "<< i <<": " << (buckets[i]).size() << endl;
-        list<vector<population>> temp = buckets[i];
-        for (const auto& vec : temp){
-            cout <<"Region: " << vec[0].region << "\tSize: " <<vec.size() << endl;
+        cout <<"Avl Trees in chain "<< i <<": " << (buckets[i]).size() << endl;
+        for (const auto& Node: buckets[i]){
+          AvlTree.printLevelOrder(Node);
         }
         // for (const auto& item : buckets[i]) {
         //     cout << item.region << " "; // Assuming 'region' is a member of population struct

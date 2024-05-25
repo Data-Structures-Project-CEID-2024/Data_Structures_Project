@@ -12,6 +12,7 @@ typedef struct population
 typedef struct Node 
 {
     int height;
+    int intKey;
     std::string key;
     std::vector<population> node_data_births;
     std::vector<population> node_data_deaths;
