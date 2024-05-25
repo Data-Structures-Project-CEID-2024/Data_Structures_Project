@@ -32,6 +32,7 @@ typedef struct Node
      * Region indexed contentAVL
      * contentNode data: Periods
      */
+    int data;
 
     struct Node* node_parent;
     struct Node* left_child;

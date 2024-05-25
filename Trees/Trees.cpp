@@ -212,9 +212,10 @@ void REG::printLevelOrder(Node* root) {
 
     queue<Node*> q;
     q.push(root);
-
+    int i = 0;
     while (!q.empty()) {
         int nodeCount = q.size();
+        cout<< "\n[Level " << i++ << "]\n";
         while (nodeCount > 0) {
             Node* node = q.front();
             std::cout << node->key << "\t \t";
@@ -228,9 +229,9 @@ void REG::printLevelOrder(Node* root) {
     cout << endl;
 }
 
-//-----------------------------------------------------------------------------------------------------//COUNT
+//-----------------------------------------------------------------------------------------------------//NUM
 
-Node* COUNT::newNode(population data){
+Node* NUM::newNode(population data){
     Node* newNode = new Node;
 
     newNode->intKey = data.count;
@@ -247,7 +248,7 @@ Node* COUNT::newNode(population data){
 
 }
 
-Node* COUNT::insert(Node* parent, population key)
+Node* NUM::insert(Node* parent, population key)
 {
     if (parent == NULL)
         return (newNode(key));
@@ -281,7 +282,7 @@ Node* COUNT::insert(Node* parent, population key)
     return (parent);
 }
 
-Node* COUNT::search(Node* parent, int key){ //Births oriented
+Node* NUM::search(Node* parent, int key){ //Births oriented
     cout << "\nSearching...\n";
 
     while(parent != nullptr)
@@ -306,7 +307,7 @@ Node* COUNT::search(Node* parent, int key){ //Births oriented
 //
 //}
 
-Node* COUNT::deleteNode(Node* parent, int key)
+Node* NUM::deleteNode(Node* parent, int key)
 {
     Node* deletionNode = search(parent, key);
 
@@ -330,14 +331,15 @@ Node* COUNT::deleteNode(Node* parent, int key)
 //
 //}
 
-void COUNT::printLevelOrder(Node* root) {
+void NUM::printLevelOrder(Node* root) {
     if (root == nullptr) return;
 
     queue<Node*> q;
     q.push(root);
-
+    int i = 0;
     while (!q.empty()) {
         int nodeCount = q.size();
+        cout<< "\n[Level " << i++ << "]\n";
         while (nodeCount > 0) {
             Node* node = q.front();
             std::cout << node->intKey << "\t\t";

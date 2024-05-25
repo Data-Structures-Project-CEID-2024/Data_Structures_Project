@@ -16,16 +16,6 @@ public:
     Node* left_right_rotation(Node* node);
     Node* right_left_rotation(Node* node);
     void InOrder( Node* parent, Node*& lastVisited);
-
-    virtual Node* newNode(population data) = 0;
-    virtual Node* insert(Node* parent, population key) = 0;
-//    virtual Node* search(Node* parent, std::string key) = 0;
-//    virtual Node* deleteNode(Node* parent, std::string key) = 0;
-//    virtual void editSelect(Node* node, int year, int input) = 0;
-//
-//    virtual void printArray(std::vector<population> Array) = 0;
-    virtual void printLevelOrder(Node* root) = 0;
-
 };
 
 class REG: public BST{
@@ -42,7 +32,7 @@ public:
 
 };
 
-class COUNT: public BST{
+class NUM: public BST{
 
 public:
     Node* newNode(population data);

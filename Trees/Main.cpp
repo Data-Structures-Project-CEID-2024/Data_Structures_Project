@@ -13,21 +13,21 @@ int main()
     int size = input.input.size();
 
 
-    BST* period = new COUNT();
-    Node* root0 = period->insert(NULL, input.input[0]);
-
+    NUM* counts = new NUM();
+    Node* root0 = counts->insert(NULL, input.input[0]);
     for (int i = 1; i < size; i++)
     {
-        root0 = period->insert(root0 ,input.input[i]);
+        if(input.input[i].alive == 1){
+            root0 = counts->insert(root0 ,input.input[i]);
+        }
     }
 
     Node* lastVisited0 = nullptr;
-    period->InOrder(root0, lastVisited0);
+    counts->InOrder(root0, lastVisited0);
     cout << endl;
-    period->printLevelOrder(root0);
+    counts->printLevelOrder(root0);
 
-
-    BST* bst = new REG();
+    REG* bst = new REG();
     Node* root = bst->insert(NULL, input.input[0]);
 
     for (int i = 1; i < size; i++)
