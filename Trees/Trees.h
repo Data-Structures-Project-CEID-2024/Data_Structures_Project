@@ -16,6 +16,7 @@ public:
     Node* left_right_rotation(Node* node);
     Node* right_left_rotation(Node* node);
     void InOrder( Node* parent, Node*& lastVisited);
+    void printArray(std::vector<population> Array);
 };
 
 class REG: public BST{
@@ -26,8 +27,6 @@ public:
     Node* search(Node* parent, std::string key);
     Node* deleteNode(Node* parent, std::string key);
     void editSelect(Node* node, int year, int input);
-
-    void printArray(std::vector<population> Array);
     void printLevelOrder(Node* root);
 
 };
@@ -40,8 +39,8 @@ public:
     Node* search(Node* parent, int key);
     Node* deleteNode(Node* parent, int key);
     void editSelect(Node* node, int counts, std::string region, int input);
-
-//    void printArray(std::vector<population> Array);
+    Node* findMin(Node* root);
+    Node* findMax(Node* root);
     void printLevelOrder(Node* root);
 };
 
@@ -53,8 +52,6 @@ public:
     Node* search(Node* parent, int key);
     Node* deleteNode(Node* parent, int key);
 //    void editSelect(Node* node, std::string region, int input);
-
-//    void printArray(std::vector<population> Array);
     void printLevelOrder(Node* root);
 };
 

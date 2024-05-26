@@ -74,15 +74,25 @@ void BST::InOrder(Node* parent, Node*& lastVisited)
     InOrder(parent->left_child, lastVisited);
     cout << parent->key << "\n";
     lastVisited = parent;
-    // cout << "--- Node Data Array --- \n";
-    // cout << "Births: \n";
-    // printArray(parent->node_data_births);
-    // cout << "Deaths: \n";
-    // printArray(parent->node_data_deaths);
+     cout << "--- Node Data Array --- \n";
+     cout << "Births: \n";
+     printArray(parent->node_data_births);
+     cout << "Deaths: \n";
+     printArray(parent->node_data_deaths);
     InOrder(parent->right_child, lastVisited);
 }
 
+void BST::printArray(vector<population> Array)
+{
+    cout << "Period\t\t" << "Birth or Deaths (1 or 0)\t" << "Count\t\t" << "Region" << "\n\n";
 
+    for(auto& v : Array)
+    {
+        cout << v.period << "\t\t" << v.alive << "\t\t\t\t" << v.count << "\t\t" << v.region << "\n";
+    }
+
+    cout << "\n";
+}
 
 //-----------------------------------------------------------------------------------------------------//REG
 
@@ -192,19 +202,6 @@ Node* REG::deleteNode(Node* parent, std::string key)
     }
 
     return deletionNode;
-}
-
-
-void REG::printArray(vector<population> Array)
-{
-    cout << "Period\t\t" << "Birth or Deaths (1 or 0)\t" << "Count\t\t" << "Region" << "\n\n";
-
-    for(auto& v : Array)
-    {
-        cout << v.period << "\t\t" << v.alive << "\t\t\t\t" << v.count << "\t\t" << v.region << "\n";
-    }
-
-    cout << "\n";
 }
 
 void REG::printLevelOrder(Node* root) {
@@ -352,10 +349,6 @@ Node* COUNT::deleteNode(Node* parent, int key)
     return deletionNode;
 }
 
-//void PRD::printArray(vector<population> Array){
-//
-//}
-
 void COUNT::printLevelOrder(Node* root) {
     if (root == nullptr) return;
 
@@ -378,6 +371,23 @@ void COUNT::printLevelOrder(Node* root) {
     cout << endl;
 }
 
+Node* COUNT::findMin(Node* root) {
+    if (root->left_child != nullptr) {
+        cout << "\nAGAIN: " << root->intKey;
+        return findMin(root->left_child);
+    }
+    return root;
+}
+
+Node* COUNT::findMax(Node* root) {
+    if (root->right_child != nullptr) {
+        cout << "\nAGAIN: " << root->intKey;
+        return findMin(root->right_child);
+    }
+    return root;
+}
+
+
 //-----------------------------------------------------------------------------------------------------//PRD
 
 Node* PRD::newNode(population data){
@@ -385,7 +395,7 @@ Node* PRD::newNode(population data){
 
     newNode->intKey = data.count;
 
-    //Content handling for printf's Erwthma A
+    //Content handling for printf's Erwthma
 
     newNode->left_child = NULL;
     newNode->right_child = NULL;

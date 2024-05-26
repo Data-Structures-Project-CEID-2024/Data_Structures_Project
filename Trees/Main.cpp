@@ -31,15 +31,12 @@ int main()
     Node* cptr = counts->search(root0, 2067);
     cout << "\nCount key is: " << cptr->intKey << "\n";
     Node* rptr = reg->search(cptr->birth_data, "Gisborne region");
-    //Testing contents and editing data
-    if(rptr != nullptr){
-        cout << "Data is: " << rptr->data << "\n";
-        counts->editSelect(root0,2067,"Gisborne region", 13);
-        cout << "New data is: " << rptr->data;
-    }
-    else{
-        cout << "\nERROR: NULL RETURNED\n";
-    }
+    cout << "\nData is: " << rptr->data;
+
+    Node* minptr = counts->findMin(root0);
+    cout << "\nMinimum key is: " << minptr->intKey << "\n";
+    Node* maxptr = counts->findMax(root0);
+    cout << "\nMaximum key is: " << maxptr->intKey << "\n";
 
     reg->printLevelOrder(cptr->birth_data);
 
