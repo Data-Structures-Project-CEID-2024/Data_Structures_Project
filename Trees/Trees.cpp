@@ -252,9 +252,11 @@ Node* COUNT::newNode(population data){
 
 Node* COUNT::insert(Node* parent, population key)
 {
+    REG* reg = new REG();
+
     if (parent == NULL){
-        REG* reg = new REG();
         Node* ptr = newNode(key);
+        ptr->node_parent = parent;
         Node* newContent = reg->insert(ptr->birth_data,key);
         newContent->data = key.period;
         delete reg;
@@ -270,17 +272,14 @@ Node* COUNT::insert(Node* parent, population key)
         parent->right_child = insert(parent->right_child, key);
     }
 
-     else if (key.alive == 1){
-        REG* reg = new REG();
-        Node* newContent = reg->insert(parent->birth_data, key);
-        newContent->data = key.period;
-        delete reg;
+     else if (key.alive == 1 && parent->birth_data != nullptr){
+
+        parent->birth_data = reg->insert(parent->birth_data, key);
+        parent->birth_data->data = key.period;
      }
-     else{
-        REG* reg = new REG();
-        Node* newContent = reg->insert(parent->death_data, key);
-        newContent->data = key.period;
-        delete reg;
+    else if (key.alive == 0 && parent->birth_data != nullptr){
+        parent->birth_data = reg->insert(parent->death_data, key);
+        parent->birth_data->data = key.period;
      }
 
     parent->height = 1 + std::max(height(parent->left_child), height(parent->right_child));
@@ -300,6 +299,7 @@ Node* COUNT::insert(Node* parent, population key)
     else if (hb < -1 )
         parent =  right_rotation(parent);
 
+    delete reg;
     return (parent);
 }
 
