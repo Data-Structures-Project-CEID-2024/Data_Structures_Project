@@ -324,9 +324,13 @@ Node* COUNT::search(Node* parent, int key){ //Births oriented
     return nullptr;
 }
 
-//void PRD::editSelect(Node* node, string region, int input){
-//
-//}
+void COUNT::editSelect(Node* node, int counts, string region, int input){
+    REG* reg = new REG();
+    Node* cptr = search(node, counts);
+    Node* rptr = reg->search(cptr->birth_data, region);
+    rptr->data = input;
+    return;
+}
 
 Node* COUNT::deleteNode(Node* parent, int key)
 {

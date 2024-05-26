@@ -29,8 +29,22 @@ int main()
     counts->printLevelOrder(root0);
 
     Node* cptr = counts->search(root0, 2067);
-    cout << "\nData is: " << cptr->birth_data->data << "\n";
+    cout << "\nCount key is: " << cptr->intKey << "\n";
+    Node* rptr = reg->search(cptr->birth_data, "Gisborne region");
+    //Testing contents and editing data
+    if(rptr != nullptr){
+        cout << "Data is: " << rptr->data << "\n";
+        counts->editSelect(root0,2067,"Gisborne region", 13);
+        cout << "New data is: " << rptr->data;
+    }
+    else{
+        cout << "\nERROR: NULL RETURNED\n";
+    }
+
     reg->printLevelOrder(cptr->birth_data);
+
+
+
 
 //    REG* bst = new REG();
 //    Node* root = bst->insert(NULL, input.input[0]);

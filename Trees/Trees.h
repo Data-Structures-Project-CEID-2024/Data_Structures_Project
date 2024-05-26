@@ -39,7 +39,7 @@ public:
     Node* insert(Node* parent, population key);
     Node* search(Node* parent, int key);
     Node* deleteNode(Node* parent, int key);
-//    void editSelect(Node* node, std::string region, int input);
+    void editSelect(Node* node, int counts, std::string region, int input);
 
 //    void printArray(std::vector<population> Array);
     void printLevelOrder(Node* root);
