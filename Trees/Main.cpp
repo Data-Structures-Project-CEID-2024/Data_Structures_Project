@@ -28,6 +28,8 @@ int main()
     cout << endl;
     counts->printLevelOrder(root0);
 
+    counts->show(root0);
+
     Node* cptr = counts->search(root0, 2067);
     cout << "\nCount key is: " << cptr->intKey << "\n";
     Node* rptr = reg->search(cptr->birth_data, "Gisborne region");

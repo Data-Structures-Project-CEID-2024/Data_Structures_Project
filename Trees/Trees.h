@@ -42,6 +42,8 @@ public:
     Node* findMin(Node* root);
     Node* findMax(Node* root);
     void printLevelOrder(Node* root);
+
+    void show(Node* root);
 };
 
 class PRD: public BST{

@@ -256,6 +256,7 @@ Node* COUNT::insert(Node* parent, population key)
         ptr->node_parent = parent;
         Node* newContent = reg->insert(ptr->birth_data,key);
         newContent->data = key.period;
+
         delete reg;
         return (ptr);
     }
@@ -382,11 +383,19 @@ Node* COUNT::findMin(Node* root) {
 Node* COUNT::findMax(Node* root) {
     if (root->right_child != nullptr) {
         cout << "\nAGAIN: " << root->intKey;
-        return findMin(root->right_child);
+        return findMax(root->right_child);
     }
     return root;
 }
 
+void COUNT::show(Node* root){
+    if(root->left_child != nullptr && root->right_child != nullptr){
+        cout << "\n\t" << root->intKey << "\n" << root->left_child->intKey << "\t\t" << root->right_child->intKey << "\n";
+        show(root->left_child);
+        show(root->right_child);
+    }
+    else return;
+}
 
 //-----------------------------------------------------------------------------------------------------//PRD
 
