@@ -1,0 +1,10 @@
+/--[ B's MENU ]------------------------------------------------------------------------------\
+|
+| 0) [EXIT]: Exit app.
+| 1) [Task 1]: InOrder View.
+| 2) [Task 2]: Search entry by (Count of births, Region).
+| 3) [Task 3]: Edit entry data for (Count of births, Region).
+| 4) [Task 4]: Delete node by (Count of births).
+| 5) [BACK]: Back to Main Menu.
+|
+\--------------------------------------------------------------------------------------------/

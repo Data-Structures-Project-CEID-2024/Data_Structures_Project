@@ -1,51 +1,55 @@
 #include "Input.h"
 #include "Struct.h"
 #include "Trees.h"
+#include "Menu.h"
 
 using namespace std;
 
 int main()
 {
 
-    Input input = Input();
-    // input.printArray(input.input);
+    Menu* menu = new Menu();
+    delete menu;
 
-//    int size = input.input.size();
-
-
-    COUNT* counts = new COUNT();
-//    REG* reg = new REG();
-
-    Node* root0 = counts->insert(NULL, input.input[0]);
-    for (int i = 1; i < 20 /* temporary */; i++)
-    {
-        if(input.input[i].alive == 1){
-            root0 = counts->insert(root0 ,input.input[i]);
-        }
-    }
-
-    cout << endl;
-    counts->printLevelOrder(root0);
-
-
-    Node* cptr = counts->search(root0, 2067, "Bay of Plenty region");
-    cout << "\nCount key is: " << cptr->intKey;
-    cout << "\nRegion is: " << cptr->key;
-    cout << "\nPeriod is: " << cptr->data_count << "\n";
-
-    counts->editSelect(root0,2067,"Bay of Plenty region", 13);
-
-    cptr = counts->search(root0, 2067, "Bay of Plenty region");
-    cout << "\nCount key is: " << cptr->intKey;
-    cout << "\nRegion is: " << cptr->key;
-    cout << "\nPeriod is: " << cptr->data_count << "\n";
-
-    counts->deleteNode(root0, 2067);
-
-    cptr = counts->search(root0, 2067, "Bay of Plenty region");
-    cout << "\nCount key is: " << cptr->intKey;
-    cout << "\nRegion is: " << cptr->key;
-    cout << "\nPeriod is: " << cptr->data_count << "\n";
+//    Input input = Input();
+//    // input.printArray(input.input);
+//
+////    int size = input.input.size();
+//
+//
+//    COUNT* counts = new COUNT();
+////    REG* reg = new REG();
+//
+//    Node* root0 = counts->insert(NULL, input.input[0]);
+//    for (int i = 1; i < 20 /* temporary */; i++)
+//    {
+//        if(input.input[i].alive == 1){
+//            root0 = counts->insert(root0 ,input.input[i]);
+//        }
+//    }
+//
+//    cout << endl;
+//    counts->printLevelOrder(root0);
+//
+//
+//    Node* cptr = counts->search(root0, 2067, "Bay of Plenty region");
+//    cout << "\nCount key is: " << cptr->intKey;
+//    cout << "\nRegion is: " << cptr->key;
+//    cout << "\nPeriod is: " << cptr->data_count << "\n";
+//
+//    counts->editSelect(root0,2067,"Bay of Plenty region", 13);
+//
+//    cptr = counts->search(root0, 2067, "Bay of Plenty region");
+//    cout << "\nCount key is: " << cptr->intKey;
+//    cout << "\nRegion is: " << cptr->key;
+//    cout << "\nPeriod is: " << cptr->data_count << "\n";
+//
+//    counts->deleteNode(root0, 2067);
+//
+//    cptr = counts->search(root0, 2067, "Bay of Plenty region");
+//    cout << "\nCount key is: " << cptr->intKey;
+//    cout << "\nRegion is: " << cptr->key;
+//    cout << "\nPeriod is: " << cptr->data_count << "\n";
 
 //    Node* minptr = counts->findMin(root0);
 //    cout << "\nMinimum key is: " << minptr->intKey << "\n";
@@ -237,5 +241,4 @@ int main()
     //   C                B
  
     return 0;
-
 }
