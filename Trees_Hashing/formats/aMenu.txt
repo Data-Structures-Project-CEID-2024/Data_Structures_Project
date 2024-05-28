@@ -1,0 +1,10 @@
+/--[ A's MENU ]------------------------------------------------------------------------------\
+|
+| 0) [EXIT]: Exit app.
+| 1) [Task 1]: InOrder View.
+| 2) [Task 2]: Search entry by (Region, Period).
+| 3) [Task 3]: Edit entry data for (Region, Period).
+| 4) [Task 4]: Delete node by (Region).
+| 5) [BACK]: Back to Main Menu.
+|
+\--------------------------------------------------------------------------------------------/

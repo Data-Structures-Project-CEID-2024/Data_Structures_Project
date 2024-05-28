@@ -1,5 +1,6 @@
-#include "Input.h"
 
+#include "Input.h"
+    
 using namespace std;
 
 
@@ -15,6 +16,7 @@ Input::Input()
         getline(inputFile,line);
 
         
+        // Get Line and Parse CSV File [Period, Alive, Region, Count]
         while(getline(inputFile,line))
         {
             population p;
@@ -24,24 +26,19 @@ Input::Input()
             getline(ss,buffer, ',');
 
             p.period = stoi(buffer);
-            // cout << p.period << " ";
 
             getline(ss,buffer, ',');
             p.alive = (buffer == "Births");
-            // cout << p.alive << " ";
 
             getline(ss,buffer, ',');
             if (buffer == "\"Region not stated or area outside region\"")
                 p.region = "0";
             else
                 p.region = buffer;
-            // cout << p.region<< " ";
 
             getline(ss,buffer, ',');
             p.count = stoi(buffer);
-            // cout << p.count << " ";
 
-            // cout << "\n";
             input.push_back(p);
         }
 
@@ -67,7 +64,6 @@ void Input::deathsNbirthsbyRegion()
         for (int i = region_id; i < (int)input.size();  i+= 36)
         {
             count_births += input[i].count;
-            // cout << input[i].count << "\t";
         }    
         population byRegion_births;
         byRegion_births.alive = true;
@@ -88,7 +84,6 @@ void Input::deathsNbirthsbyRegion()
 
         deathsbyRegion.push_back(byRegion_deaths);
         
-        // cout << "\n";
     }
 }
 
