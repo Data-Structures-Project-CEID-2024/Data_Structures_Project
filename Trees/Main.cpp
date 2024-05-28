@@ -8,34 +8,36 @@ using namespace std;
 int main()
 {
 
-    Menu* menu = new Menu();
-    delete menu;
+//    Menu* menu = new Menu();
+//    delete menu;
 
-//    Input input = Input();
+    Input input = Input();
 //    // input.printArray(input.input);
 //
 ////    int size = input.input.size();
 //
 //
-//    COUNT* counts = new COUNT();
-////    REG* reg = new REG();
+    COUNT* counts = new COUNT();
+//    REG* reg = new REG();
 //
-//    Node* root0 = counts->insert(NULL, input.input[0]);
-//    for (int i = 1; i < 20 /* temporary */; i++)
-//    {
-//        if(input.input[i].alive == 1){
-//            root0 = counts->insert(root0 ,input.input[i]);
-//        }
-//    }
-//
-//    cout << endl;
-//    counts->printLevelOrder(root0);
-//
-//
-//    Node* cptr = counts->search(root0, 2067, "Bay of Plenty region");
-//    cout << "\nCount key is: " << cptr->intKey;
-//    cout << "\nRegion is: " << cptr->key;
-//    cout << "\nPeriod is: " << cptr->data_count << "\n";
+    Node* root0 = counts->insert(NULL, input.input[0]);
+    for (int i = 1; i < 20 /* temporary */; i++)
+    {
+        if(input.input[i].alive == 1){
+            root0 = counts->insert(root0 ,input.input[i]);
+        }
+    }
+
+    cout << endl;
+    counts->printLevelOrder(root0);
+
+
+//    Node* cptr = counts->searchSingular(root0, 57);
+    Node* cptr = counts->search(root0, 57, "Aggelos region");
+    cout << "\nCount key is: " << cptr->intKey;
+    cout << "\nRegion is: " << cptr->node_data_births->key;
+    cout << "\nPeriod is: " << cptr->node_data_births->data_count << "\n";
+    counts->InOrder(cptr->node_data_births);
 //
 //    counts->editSelect(root0,2067,"Bay of Plenty region", 13);
 //
@@ -51,8 +53,9 @@ int main()
 //    cout << "\nRegion is: " << cptr->key;
 //    cout << "\nPeriod is: " << cptr->data_count << "\n";
 
-//    Node* minptr = counts->findMin(root0);
-//    cout << "\nMinimum key is: " << minptr->intKey << "\n";
+    Node* minptr = counts->findMin(root0);
+    cout << "\nMinimum key is: " << minptr->intKey << "\n";
+    counts->InOrder(minptr->node_data_births);
 //    Node* maxptr = counts->findMax(root0);
 //    cout << "\nMaximum key is: " << maxptr->intKey << "\n";
 

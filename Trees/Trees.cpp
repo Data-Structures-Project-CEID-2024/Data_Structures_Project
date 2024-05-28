@@ -225,24 +225,7 @@ Node* nextInOrderNode(Node* node)
     return node;
 }
 
-Node* REG::searchSingular(Node* parent, string key){
-    while(parent != nullptr)
-    {
-        //Entry is at right subtree
-        if(key.compare(parent->key) > 0 ){ // key > parent->key
-            parent = parent->right_child;
-        }
-            //Entry is at left subtree
-        else if(key.compare(parent->key) < 0 ){ // key < parent->key
-            parent = parent->left_child;
-        }
-            //Entry found
-        else
-            return parent;
-    }
-    //Entry not found - returning nullptr
-    return nullptr;
-}
+
 
 Node* REG::deleteNode(Node* parent, string key) {
     if (parent == nullptr) {
@@ -331,6 +314,24 @@ Node* REG::search(Node* parent, std::string RegionKey, int PeriodKey){ //Births 
             return parent;
         }
             
+    }
+    //Entry not found - returning nullptr
+    return nullptr;
+}
+Node* REG::searchSingular(Node* parent, string key){
+    while(parent != nullptr)
+    {
+        //Entry is at right subtree
+        if(key.compare(parent->key) > 0 ){ // key > parent->key
+            parent = parent->right_child;
+        }
+            //Entry is at left subtree
+        else if(key.compare(parent->key) < 0 ){ // key < parent->key
+            parent = parent->left_child;
+        }
+            //Entry found
+        else
+            return parent;
     }
     //Entry not found - returning nullptr
     return nullptr;
@@ -570,24 +571,24 @@ Node* COUNT::insert(Node* parent, population key)
     return (parent);
 }
 
-//Node* COUNT::searchSingular(Node* parent, int key){ //Births oriented
-//    while(parent != nullptr)
-//    {
-//        //Entry is at right subtree
-//        if(key > parent->intKey ){ // key > parent->key
-//            parent = parent->right_child;
-//        }
-//            //Entry is at left subtree
-//        else if( key < parent->intKey ){ // key < parent->key
-//            parent = parent->left_child;
-//        }
-//            //Entry found
-//        else
-//            return parent;
-//    }
-//    //Entry not found - returning nullptr
-//    return nullptr;
-//}
+Node* COUNT::searchSingular(Node* parent, int key){ //Births oriented
+    while(parent != nullptr)
+    {
+        //Entry is at right subtree
+        if(key > parent->intKey ){ // key > parent->key
+            parent = parent->right_child;
+        }
+            //Entry is at left subtree
+        else if( key < parent->intKey ){ // key < parent->key
+            parent = parent->left_child;
+        }
+            //Entry found
+        else
+            return parent;
+    }
+    //Entry not found - returning nullptr
+    return nullptr;
+}
 
 Node* COUNT::search(Node* parent, int CountKey, string  RegionKey){ //Births oriented
     while(parent != nullptr)
@@ -605,7 +606,7 @@ Node* COUNT::search(Node* parent, int CountKey, string  RegionKey){ //Births ori
 
             if (temporal == NULL)
             {
-                cout << "Data was not Found in that Period \n";
+                cout << "Data was not Found in that Region \n";
                 return nullptr;
             }
 

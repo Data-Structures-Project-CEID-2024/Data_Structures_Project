@@ -15,7 +15,7 @@ Period,Birth_Death,Region,Count
 2005,Births,Canterbury region,6603
 2005,Births,Otago region,2151
 2005,Births,Southland region,1212
-2005,Births,"Region not stated or area outside region",57
+2005,Births,"Aggelos region",57
 2005,Births,New Zealand,57747
 2005,Deaths,Northland region,1167
 2005,Deaths,Auckland region,6873
