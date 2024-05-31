@@ -7,50 +7,52 @@
 
 using namespace std;
 
+
+
 int main()
 {
 
-    // Menu* menu = new Menu();
-    // delete menu;
+    
+    
 
     Input input = Input();
-    // input.printArray(input.input);
+    input.printArray(input.input);
     
-    // int size = input.input.size();
+    int size = input.input.size();
 
-    NumericalAVL* counts = new NumericalAVL();
-    Node* root0 = counts->insert(NULL, input.input[0].count , input.input[0]);
-    for (int i = 1; i < 20 /* temporary */; i++)
-    {
-        if(input.input[i].alive == 1){
-            root0 = counts->insert(root0, input.input[i].count ,input.input[i]);
-        }
-    }
-    cout << endl;
+    // NumericalAVL* counts = new NumericalAVL();
+    // Node* root0 = counts->insert(NULL, input.input[0].count , input.input[0]);
+    // for (int i = 1; i < 20 /* temporary */; i++)
+    // {
+    //     if(input.input[i].alive == 1){
+    //         root0 = counts->insert(root0, input.input[i].count ,input.input[i]);
+    //     }
+    // }
+    // cout << endl;
 
-    Node* cptr = counts->findMin(root0);
-    cout << "\nmin key is" << cptr->intKey;
-    for (population it : cptr->dataVector) {
-        std::cout << it.region << " ";
-    }
-    std::cout << std::endl;
+    // Node* cptr = counts->findMin(root0);
+    // cout << "\nmin key is" << cptr->intKey;
+    // for (population it : cptr->dataVector) {
+    //     std::cout << it.region << " ";
+    // }
+    // std::cout << std::endl;
 
     // // 1. Insertion with AVL Rotation and InOrder//
 
-    // REG   reg;
-    // Node* root = reg.insert(NULL, input.input[0]);
-
-    // for (int i = 1; i < size; i++)
-    // {
-    //     root = reg.insert(root ,input.input[i]);
-    // }
+    REG   reg;
+    Node* root = reg.insert(NULL, input.input[0]);
+    
+    for (int i = 1; i < size; i++)
+        root = reg.insert(root ,input.input[i]);
+    
+    Menu menu = Menu(root);
     // reg.InOrder(root);
     // reg.printLevelOrder(root);
 
     // cout << endl;
     // // 2. Search with Region and Year of Births //
 
-    // PRD prd;
+    // NumericalAVL prd;
     // prd.printLevelOrder(root->node_data_births);
     // Node* node_search = NULL;
     
@@ -249,7 +251,8 @@ int main()
     //   A          A                   C
     //      B   ->     C     - >    A       B
     //   C                B
- 
+    
+    
     return 0;
 
 }

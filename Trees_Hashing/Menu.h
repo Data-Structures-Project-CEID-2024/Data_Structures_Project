@@ -13,12 +13,17 @@ using namespace std;
 class Menu {
 public:
 
+    Node* root;
+
     vector<string> mainMenu;
     vector<string> aMenu;
     vector<string> bMenu;
     vector<string> cMenu;
 
-    Menu(){
+    Menu( Node* root)
+    {
+        
+        this->root = root;
 
         readInterfaces();
         int selection;
@@ -42,7 +47,7 @@ public:
 
                 case 1:
 
-                    taskA();
+                    taskA(this->root);
                     break;
 
                 case 2:
@@ -114,15 +119,18 @@ public:
 
     }
 
-    void taskA(){
-
+    void taskA(Node* root)
+    {
+        REG reg;
+        string search_string;
+        int search_int;
         int select;
         do{
 
             system("clear"); // Change to "cls" for Windows machines.
-            for (const auto& stored_line : aMenu) {
+            for (const auto& stored_line : aMenu) 
                 cout << stored_line << endl;
-            }
+            
             cout << "-> ";
             cin >> select;
             if(select > 5 || select < 0 || cin.fail()) {
@@ -132,27 +140,52 @@ public:
                 cin.get(); // Wait for enter
                 select = -1; // Setting selection to -1 to restart loop
             }
-            switch (select) {
+            switch (select) 
+            {
 
                 case 0:
                     system("clear"); // Change to "cls" for Windows machines.
                     exit(0);
 
                 case 1:
+                    reg.InOrder(root);
+                    reg.printLevelOrder(root);
+                    cout << endl;
 
                     break;
 
                 case 2:
+                    NumericalAVL prd;
+                    prd.printLevelOrder(root->node_data_births);
+                    Node* node_search = NULL;
+                    
+                    search_string = "A";
+                    search_int = 2000;
+
+                    node_search = reg.search(root, search_string, search_int);
+
+                    if (node_search == NULL)
+                    {
+                        cout << "Node not found\n";
+                    }
+                    else
+                    {
+                        cout << "Node found\n";
+                        cout << "Region: " << node_search->key << endl;
+                        cout << "Period: " << node_search->intKey << endl;
+                        cout << "Count: " << node_search->data_count << endl;
+                    }
+                    cout << endl;
 
                     break;
 
-                case 3:
+                // case 3:
 
-                    break;
+                //     break;
 
-                case 4:
+                // case 4:
 
-                    break;
+                //     break;
 
 
             }
