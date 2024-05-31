@@ -5,6 +5,7 @@
 | 2) [Task 2]: Edit entry data for (Region, Period).
 | 3) [Task 3]: Delete entry by (Region).
 | 4) [ - ] 
-| 5) [BACK]: Back to Main Menu.
+| 5) [INITIALIZE]: Initialize / Reinitialize the Hash Structure: (Region)
+| 6) [BACK]: Back to Main Menu.
 |
 \--------------------------------------------------------------------------------------------/

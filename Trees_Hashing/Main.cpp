@@ -12,40 +12,16 @@ using namespace std;
 int main()
 {
 
-    
-    
-
     Input input = Input();
     input.printArray(input.input);
+    Menu menu = Menu(input);
+
     
-    int size = input.input.size();
-
-    // NumericalAVL* counts = new NumericalAVL();
-    // Node* root0 = counts->insert(NULL, input.input[0].count , input.input[0]);
-    // for (int i = 1; i < 20 /* temporary */; i++)
-    // {
-    //     if(input.input[i].alive == 1){
-    //         root0 = counts->insert(root0, input.input[i].count ,input.input[i]);
-    //     }
-    // }
-    // cout << endl;
-
-    // Node* cptr = counts->findMin(root0);
-    // cout << "\nmin key is" << cptr->intKey;
-    // for (population it : cptr->dataVector) {
-    //     std::cout << it.region << " ";
-    // }
-    // std::cout << std::endl;
 
     // // 1. Insertion with AVL Rotation and InOrder//
 
-    REG   reg;
-    Node* root = reg.insert(NULL, input.input[0]);
-    
-    for (int i = 1; i < size; i++)
-        root = reg.insert(root ,input.input[i]);
-    
-    Menu menu = Menu(root);
+
+
     // reg.InOrder(root);
     // reg.printLevelOrder(root);
 

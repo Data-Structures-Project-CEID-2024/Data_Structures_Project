@@ -1,4 +1,6 @@
 #include "Hashing.h"
+#include <list>
+#include <iostream>
 using namespace std;
 
 Hashing::Hashing(int Chains)
@@ -7,7 +9,7 @@ Hashing::Hashing(int Chains)
     this->AvlTree = REG();
 }
 
-void Hashing::insertElement(population p, vector<Node*>* buckets)
+void Hashing::insertElement(population p, vector<list<Node*>>& buckets)
 {
 
 
@@ -16,8 +18,9 @@ void Hashing::insertElement(population p, vector<Node*>* buckets)
     {
         sum += static_cast<int>(c); // Convert char to ASCII value and add to sum
     }
-
+ 
     int index  = sum % m;
+    
     bool found = false;
     //bucket[index] -> chain
     for (auto& node : buckets[index])
@@ -25,6 +28,7 @@ void Hashing::insertElement(population p, vector<Node*>* buckets)
         //linear search to find the avl tree with the right region
         if (node->key == p.region)
         {
+                
                 node = AvlTree.insert(node, p);
                 found = true;
                 break;
@@ -33,19 +37,21 @@ void Hashing::insertElement(population p, vector<Node*>* buckets)
     //if not found create a new vector with only the population struct and push it back to the chain
     if (found==false)
     {
-        Node * newRegion = AvlTree.insert(NULL, p);
-        buckets[index].push_back(newRegion);
-    }
+       
+       Node* newRegion;
+       newRegion = AvlTree.insert(NULL, p);
+       buckets[index].push_back(newRegion);
+       }
 
 
 }
-void Hashing::searchElement(string Region, int Period, vector<Node*>* buckets)
+void Hashing::searchElement(string Region, int Period, vector<list<Node*>>& buckets)
 {   
     NumericalAVL prd =  NumericalAVL();
     int index = hashFunction(Region);
     bool found = false;
     // bucket[index] -> chain
-    for (auto& node : buckets[index])
+    for (auto node : buckets[index])
     {
         //linear search to find the avl tree with the right region
         if (node->key == Region)
@@ -73,23 +79,39 @@ void Hashing::searchElement(string Region, int Period, vector<Node*>* buckets)
         cout << "Region not found" << endl;
     }
 }
-void Hashing::deleteElement(string Region, vector<Node*>* buckets)
+
+void Hashing::deleteElement(string Region, vector<list<Node*>>& buckets)
 {
     REG reg;
     NumericalAVL prd;
     int index = hashFunction(Region);
      bool found = false;
      // bucket[index] -> chain
-     for (auto& node : buckets[index])
-     {
-         //linear search to find the avl tree with the right region
-         if (node->key == Region)
-         {
-                Node* tempNode = node->node_data_births;
-                prd.delelteTree(tempNode);
-                reg.deleteNode(node, Region);
-                found = true;
-                break;
+
+    //  for (auto& node : (*buckets)[index])
+    //  {
+    //      //linear search to find the avl tree with the right region
+    //      if (node->key == Region)
+    //      {
+    //             Node* tempNode = node->node_data_births;
+    //             prd.delelteTree(tempNode);
+    //             reg.deleteNode(node, Region);
+    //             found = true;
+    //             break;
+    //     }
+    // }
+
+    for (auto nodeChainIterator = buckets[index].begin(); nodeChainIterator != buckets[index].end(); ++nodeChainIterator) //chain = (*buckets)[index]
+    {
+        // linear search to find the avl tree with the right region
+        if ((*nodeChainIterator)->key == Region)
+        {
+            Node* tempNode = (*nodeChainIterator)->node_data_births;
+            prd.delelteTree(tempNode); // Delete the AVL tree of births
+            reg.deleteNode(*nodeChainIterator, Region); // Delete the node itself
+            buckets[index].erase(nodeChainIterator); // Erase the element from the list
+            found = true;
+            break;
         }
     }
     //if not found create a new vector with only the population struct and push it back to the chain
@@ -98,7 +120,7 @@ void Hashing::deleteElement(string Region, vector<Node*>* buckets)
         cout << "Region not found" << endl;
     }
 }
-void Hashing::modifyElement(string Region, int  Period, vector<Node*>* buckets, int newCount)
+void Hashing::modifyElement(string Region, int  Period, vector<list<Node*>>& buckets, int newCount)
 {
     NumericalAVL prd;
      int index = hashFunction(Region);
