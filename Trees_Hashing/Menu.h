@@ -302,7 +302,7 @@ public:
                             rootA = reg.insert(rootA , input.input[i]);
                         
                         cout << "\nAVL has been initialized in Task A: Format";
-                        
+
                         cout << "\nPress ENTER to continue.";
                         cin.clear();
                         cin.ignore(numeric_limits<streamsize>::max(),'\n');
@@ -408,7 +408,7 @@ public:
 
                 case 5:
                 {
-                    Node* rootB = counts->insert(NULL, input.input[0].count , input.input[0]);
+                    rootB = counts->insert(NULL, input.input[0].count , input.input[0]);
                     for (int i = 1; i < 20 /* temporary */; i++)
                     {
                         if(input.input[i].alive == 1){
@@ -416,6 +416,10 @@ public:
                         }
                     }
                     cout << "\nAVL has been initialized in Task B: Format";
+
+                    cout << "\nPress ENTER to continue.";
+                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                    cin.get(); // Wait for enter
                     break;
                 }
                     
