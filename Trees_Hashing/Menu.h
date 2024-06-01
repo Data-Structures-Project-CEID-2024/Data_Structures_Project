@@ -9,8 +9,6 @@
 #include <vector>
 #include <iostream>
 #include <limits>
-#include <signal.h>
-#include <setjmp.h>
 
 using namespace std;
 
@@ -45,7 +43,7 @@ public:
             cin >> selection;
             if (selection < 0 || selection > 3 || cin.fail()) {
                 cin.clear();
-                // cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 cout << "Invalid input.\nPress ENTER to continue." << endl;
                 cin.get(); // Wait for enter
                 selection = -1; // Setting selection to -1 to restart loop
@@ -128,10 +126,12 @@ public:
     
     void taskA()
     {
+        Node* node_search = NULL;
         REG reg;
         string search_string;
         int search_int;
         int select;
+        int edit_count;
         do{
 
             system("clear"); // Change to "cls" for Windows machines.
@@ -140,9 +140,10 @@ public:
             
             cout << "-> ";
             cin >> select;
-            if(select > 6 || select < 0 || cin.fail()) {
+            if(select > 6 || select < 0 || cin.fail()) 
+            {
                 cin.clear();
-                // cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 cout << "Invalid input.\nPress ENTER to continue." << endl;
                 cin.get(); // Wait for enter
                 select = -1; // Setting selection to -1 to restart loop
@@ -168,9 +169,10 @@ public:
                             cout << "Select option 5 to Initialize AVL tree first\n";
                         }
                         
+                        cout << "\nPress ENTER to continue." << endl;
+                        cin.clear();
                         cin.ignore(numeric_limits<streamsize>::max(),'\n');
-                        cout << "Press ENTER to continue." << endl;
-                        cin.get(); // Wait for enter
+                        cin.get();
                         break;
                     }
 
@@ -180,9 +182,10 @@ public:
                         {
                             NumericalAVL prd;
                             prd.printLevelOrder(rootA->node_data_births);
-                            Node* node_search = NULL;
                             
-                            cout<<"Enter the region to search: ";
+                            cout << "Enter the region to search: ";
+                            cin.clear();
+                            cin.ignore(numeric_limits<streamsize>::max(), '\n');
                             getline(cin, search_string);
                             cout << "Enter the period: ";
                             cin >> search_int;
@@ -208,21 +211,86 @@ public:
                             cout << "Select option 5 to Initialize AVL tree first\n";
                         }
 
+                           cout << "\nPress ENTER to continue." << endl;
+                        cin.clear();
                         cin.ignore(numeric_limits<streamsize>::max(),'\n');
-                        cout << "Press ENTER to continue." << endl;
-                        cin.get(); // Wait for enter
+                        cin.get();
                         break;
                     }
                     
 
                 case 3:
                     {
-                       break;
+
+                        if (rootA != NULL)
+                        {
+                            cout<<"Enter the region to edit: ";
+                            
+                            cout << "Enter the region to search: ";
+                            cin.clear();
+                            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                            getline(cin, search_string);
+                            cout << "Enter the period: ";
+                            cin >> search_int;
+                            cout << "Enter the new count: ";
+                            cin >> edit_count;
+
+                            reg.editSelect(rootA, search_string, search_int, edit_count);
+                            node_search = reg.search(rootA, search_string, search_int);
+
+                            if (node_search == NULL)
+                            {
+                                cout << "Node not found\n";
+                            }
+                            else
+                            {
+                                cout << "Node found\n";
+                                cout << "Region: " << node_search->key << endl;
+                                cout << "Period: " << node_search->intKey << endl;
+                                cout << "Count: " << node_search->data_count << endl;
+                            }
+                        }
+                        else
+                        {
+                            cout << "Tree not initialized\n";
+                            cout << "Select option 5 to Initialize AVL tree first\n";
+                        }
+
+                        cout << "\nPress ENTER to continue." << endl;
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                        cin.get();
+                        break;
                     }
                     
                 case 4:
                     {
-                        cout << "\nEnter valid input";
+                        if(rootA != NULL)
+                        {
+                            cout << "Enter the region to search: ";
+                            cin.clear();
+                            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                            getline(cin, search_string);
+                           
+                            reg.deleteNode(rootA, search_string);
+                            
+                            node_search = reg.search(rootA, search_string, search_int = 0);
+
+                            if (node_search == NULL)
+                                cout << "Node was successfully deleted\n";
+                            else
+                                cout << "Node was not deleted\n";
+                        }
+                        else
+                        {
+                            cout << "Tree not initialized\n";
+                            cout << "Select option 5 to Initialize AVL tree first\n";
+                        }
+
+                        cout << "\nPress ENTER to continue." << endl;
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                        cin.get();
                         break;
                     }
                 case 5:
@@ -234,6 +302,11 @@ public:
                             rootA = reg.insert(rootA , input.input[i]);
                         
                         cout << "\nAVL has been initialized in Task A: Format";
+                        
+                        cout << "\nPress ENTER to continue.";
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                        cin.get();
                         break;
                     }
 
@@ -352,7 +425,7 @@ public:
         }while(select != 6);
     }
 
-    void taskC(){
+   void taskC(){
        string Region;
        int Period;
        int newCount;
@@ -382,21 +455,76 @@ public:
                     exit(0);
 
                 case 1: 
-                    cin >> Region;
-                    cin >> Period; 
-                    hash.searchElement(Region, Period, buckets);
+                        cout<<"Enter the region to search: ";
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                        getline(cin, Region);
+                        cout << "Enter the period: ";
+                        cin >> Period;
+
+                    if( buckets.size() != 0 ){
+                      hash.searchElement(Region, Period, buckets);
+                    }
+                    else
+                        {
+                            cout << "Hash map not initialized\n";
+                            cout << "Select option 5 to Initialize Hash map first\n";
+                        }
+
+
+                        cout << "Press ENTER to continue." << endl;
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                        cin.get();
                      break;
 
                 case 2:
-                    cin >> Region;
-                    cin >> Period; 
+                    cout<<"Enter the region to edit: ";
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    getline(cin, Region);
+                    cout << "Enter the period: ";
+                    cin >> Period;
+                    cout << "Enter the new count: ";
                     cin >> newCount;
-                    hash.modifyElement(Region, Period, buckets, newCount);
+
+                    
+                    if( buckets.size() != 0 ){
+                       hash.modifyElement(Region, Period, buckets, newCount);
+                    }
+                    else
+                        {
+                            cout << "Hash map not initialized\n";
+                            cout << "Select option 5 to Initialize Hash map first\n";
+                        }
+
+
+                        cout << "Press ENTER to continue." << endl;
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                        cin.get();
                     break;
 
                 case 3:
-                    cin >> Region; 
-                    hash.deleteElement(Region, buckets);
+                    cout<<"Enter the region to delete: ";
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    getline(cin, Region);
+                   
+                    if( buckets.size() != 0 ){
+                        hash.deleteElement(Region, buckets);
+                    }
+                    else
+                        {
+                            cout << "Hash map not initialized\n";
+                            cout << "Select option 5 to Initialize Hash map first\n";
+                        }
+
+
+                        cout << "Press ENTER to continue." << endl;
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                        cin.get();
                    
                     break;
 
@@ -417,15 +545,24 @@ public:
 
                     for (auto& population : input.input)
                     {
-                        // cout << "Region: " << population.region <<  "\t\t\tPeriod:  "  << population.period;
+                        //cout << "Region: " << population.region <<  "\t\t\tPeriod:  "  << population.period;
                         hash.insertElement(population, buckets);
+    
                     }
+                    cout << "** Hash map has been initialized in Task's C: Format **";
+                    cout << "\nPress ENTER to continue.";
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                    cin.get();
+
                 break;
 
 
             }
 
         }while(select != 6);
+    
+
     }
 
 };

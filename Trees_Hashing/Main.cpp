@@ -74,7 +74,7 @@ int main()
     // root = reg.deleteNode(root, "New Zealand");
     // root = reg.deleteNode(root, "Auckland region");
     // root = reg.deleteNode(root, "Canterbury region");
-    // root = reg.deleteNode(root, "Hawke's Bay region");
+    // root = reg.(root, "Hawke's Bay region");
     // root = reg.deleteNode(root, "Nelson region");
     
     // reg.InOrder(root);
