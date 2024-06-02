@@ -14,11 +14,6 @@ void BST::InOrder(Node* parent)
 
     InOrder(parent->left_child);
     cout << parent->key << "\n";
-    // cout << "--- Node Data Array --- \n";
-    // cout << "Births: \n";
-    // printArray(parent->node_data_births);
-    // cout << "Deaths: \n";
-    // printArray(parent->node_data_deaths);
     InOrder(parent->right_child);
 }
 
@@ -55,13 +50,18 @@ int BST::height_balance(Node* node)
 
 Node* BST::left_rotation(Node* node)
 {
+    // New Root is the right child of the OLD root
     Node* new_root = node->right_child;
+
+    // New Root's ex left child becomes the OLD root's right child
     Node* new_root_left_child = new_root->left_child;
 
     
+    // New Root's left child is the OLD root
     new_root->left_child = node;
     node->right_child = new_root_left_child;
     
+    // Update the height of the nodes
     node->height = 1 + max(height(node->left_child), height(node->right_child));
     new_root->height = 1 + max(height(new_root->left_child), height(new_root->right_child));
 
@@ -70,13 +70,17 @@ Node* BST::left_rotation(Node* node)
 
 Node* BST::right_rotation(Node* node)
 {
+    // New Root is the left child of the OLD root
     Node* new_root = node->left_child;
+
+    // New Root's ex right child becomes the OLD root's left child
     Node* new_root_right_child = new_root->right_child;
 
-    
+    // New Root's right child is the OLD root
     new_root->right_child = node;
     node->left_child = new_root_right_child;
 
+    // Update the height of the nodes
     node->height =  1 + max(height(node->left_child), height(node->right_child));
     new_root->height = 1 + max(height(new_root->left_child), height(new_root->right_child));
 
@@ -129,6 +133,7 @@ Node* REG::newNode(population data)
 {
     Node* newNode = new Node;
 
+    // Key is the Region in REG Trees
     newNode->key = data.region;
 
     // For Searching because we return the Node that has the Region and we need to have
@@ -140,14 +145,17 @@ Node* REG::newNode(population data)
     newNode->node_data_births = NULL;
     newNode->node_data_deaths = NULL;
 
+    // Creating Either Births or Deaths AVL
     if (data.alive == 1)
         newNode->node_data_births = period_tree.insert(NULL, data.period , data);
     else
         newNode->node_data_deaths = period_tree.insert(NULL, data.period ,data);
 
+    // Necessary Initializations
     newNode->node_parent = NULL;
     newNode->left_child = NULL;
     newNode->right_child = NULL;
+
     newNode->height = 1;
 
     return (newNode);
@@ -162,7 +170,6 @@ Node* REG::insert(Node* parent, population key)
     if (parent == NULL)
     {
         Node * node = newNode(key);
-        node->node_parent = parent;
         return (node);
     }    
     
@@ -174,43 +181,41 @@ Node* REG::insert(Node* parent, population key)
     {
         parent->right_child = insert(parent->right_child, key);
     }
-    // else if (key.alive == 1 && parent->node_data_births == NULL)
-    // {
-    //     parent->node_data_births = period_tree.insert(parent->node_data_births, key);
-    // }
-    // else if (key.alive == 0 && parent->node_data_deaths == NULL)
-    // {
-        
-    // }
-    else if (key.alive == 1) 
+    else if (key.alive == 1) //In Case of Births, add to the Births AVL
     {
         parent->node_data_births = period_tree.insert(parent->node_data_births, key.period ,key);
     }   
-    else 
+    else // In Case of Deaths, add to the Deaths AVL
     {
         parent->node_data_deaths = period_tree.insert(parent->node_data_deaths, key.period , key);
-        // parent->node_data_deaths[key.period - 2005] = key;
     }
    
     
-    
+    // Update the height of the parent
     parent->height = 1 + std::max(height(parent->left_child), height(parent->right_child));
 
+    // Get the Height Balance of the parent = height(right) - height(left)
     int hb = height_balance(parent);
 
-    
+    // 4 Cases for Rotation
+
+    // Right Left Rotation: The newNode is one the right subtree AND on the left of parents' right subtree 
     if (hb > 1 && key.region.compare(parent->right_child->key) < 0)
         parent = right_left_rotation(parent);
 
+    // Left Right Rotation: The newNode is one the left subtree AND on the right of parents' left subtree
     else if (hb < -1 && key.region.compare(parent->left_child->key) > 0)
         parent = left_right_rotation(parent);
 
+    // Left Rotation: The newNode is on the right subtree AND on the right of parents' right subtree
     else if (hb > 1)
         parent = left_rotation(parent);
 
+    // Right Rotation: The newNode is on the left subtree AND on the left of parents' left subtree
     else if (hb < -1 )
         parent =  right_rotation(parent);
 
+    // Return the pointer to the new Parent
     return (parent);
 
 }
@@ -249,6 +254,9 @@ Node* REG::searchSingular(Node* parent, string key){
 
 Node* REG::deleteNode(Node* parent, string key)
 {
+
+    NumericalAVL period_tree;
+
     if (parent == nullptr) {
         return parent;
     }
@@ -263,20 +271,46 @@ Node* REG::deleteNode(Node* parent, string key)
         parent->right_child = deleteNode(parent->right_child, key);
     }
     // Key is Equal to parent->key
-    else {
-        
+    else 
+    {
+        // Parent has Only Right Child   
         if (parent->left_child == nullptr) 
         {
+            // Delete the Births AVL
+            if (parent->node_data_births != NULL)
+                period_tree.delelteTree(parent->node_data_births);
+
+            // Delete the Deaths AVL
+            if (parent->node_data_deaths != NULL)
+                period_tree.delelteTree(parent->node_data_deaths);
+
             Node* temp = parent->right_child;
             delete parent;
             return temp;
         }
+        // Parent has Only Left Child
         else if (parent->right_child == nullptr)
         {   
+            // Delete the Births AVL
+            if (parent->node_data_births != NULL)
+                period_tree.delelteTree(parent->node_data_births);
+                
+            // Delete the Deaths AVL
+            if (parent->node_data_deaths != NULL)
+                period_tree.delelteTree(parent->node_data_deaths);
+
             Node* temp = parent->left_child;
             delete parent;
             return temp;
         }
+
+        // Delete the Births AVL
+        if (parent->node_data_births != NULL)
+            period_tree.delelteTree(parent->node_data_births);
+        
+        // Delete the Deaths AVL
+        if (parent->node_data_deaths != NULL)
+            period_tree.delelteTree(parent->node_data_deaths);
 
         // Node with two children, get the in-order successor
         Node* temp = nextInOrderNode(parent->right_child);
@@ -289,6 +323,7 @@ Node* REG::deleteNode(Node* parent, string key)
     }
     parent->height = 1 + std::max(height(parent->left_child), height(parent->right_child));
 
+    // Rebalance the tree
     int hb = height_balance(parent);
 
     if (hb > 1 && height_balance(parent->right_child) >= 0)
@@ -482,9 +517,9 @@ Node* NumericalAVL::deleteNode(Node* parent, int key)
     }
 
     
-    if ( key < parent->intKey ) {
+    if ( key < parent->intKey )
+    {
         parent->left_child = deleteNode(parent->left_child, key);
-        // parent->left_child->node_parent = parent;
     }
     
     else if ( key > parent->intKey ) {
@@ -492,13 +527,14 @@ Node* NumericalAVL::deleteNode(Node* parent, int key)
     }
     // Key is Equal to parent->key
     else {
-        
+        // Parent has Only Right Child
         if (parent->left_child == nullptr) 
         {
             Node* temp = parent->right_child;
             delete parent;
             return temp;
         }
+        // Parent has Only Left Child
         else if (parent->right_child == nullptr)
         {   
             Node* temp = parent->left_child;
@@ -511,10 +547,12 @@ Node* NumericalAVL::deleteNode(Node* parent, int key)
 
         parent->key = temp->key;
         parent->height = temp->height;
+
         // Delete the in-order successor
         parent->right_child = deleteNode(parent->right_child, temp->intKey);
         
     }
+    // Update the height of the parent
     parent->height = 1 + std::max(height(parent->left_child), height(parent->right_child));
 
     int hb = height_balance(parent);
