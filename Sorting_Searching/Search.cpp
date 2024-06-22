@@ -17,10 +17,6 @@ Search::Search(vector<population> v)
         cout << "b2: ";
         cin >> b2;
 
-        // //Hardcoded range change if needed to be variable for user input:
-        // b1 = 432084;
-        // b2 = 5;
-
     }
     catch (runtime_error& e)
     {
@@ -48,14 +44,9 @@ void Search::rangeParse()
         cout << "\nRange endpoints falsely defined.\nExpected formatting: b2 >= b1\n";
         exit(0);
     }
-    if ( findIndex<0){
-        i = -findIndex;
-    }
-    else{
-        i = findIndex;
-    }
-    cout << "\n" << "Result index is: " << i << "\n";
-    while(array[i].count <= b2){
+    i = abs(findIndex);
+    while(array[i].count <= b2 && i < (int)array.size())
+    {
         rangeArray.push_back(array[i]);
         i++;
     }
